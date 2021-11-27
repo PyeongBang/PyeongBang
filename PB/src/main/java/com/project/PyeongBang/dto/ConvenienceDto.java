@@ -6,10 +6,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ConvenienceDto {
-    private String name;
     private String address;
-    public ConvenienceDto(String name, String address){
-        this.name = name;
+    private String name;
+    public ConvenienceDto(String address, String name){
         this.address = address;
+        this.name = name;
     }
 }

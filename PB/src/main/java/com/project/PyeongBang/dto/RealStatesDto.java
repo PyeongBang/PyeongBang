@@ -6,12 +6,14 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RealStatesDto {
+    private String phone;
+    private String user_id;
     private String name;
     private String address;
-    private String number;
-    public RealStatesDto(String name, String address, String number){
+    public RealStatesDto(String phone, String user_id, String name, String address){
+        this.phone = phone;
+        this.user_id = user_id;
         this.name = name;
         this.address = address;
-        this.number = number;
     }
 }

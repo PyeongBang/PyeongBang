@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RoomOptionsDto {
-    private String name; // 건물명
+    private String building_name; // 건물명
     private boolean induction;
     private boolean microwave;
     private boolean airConditioner;
@@ -17,10 +17,17 @@ public class RoomOptionsDto {
     private boolean gasRange;
     private boolean refrigerator;
     private boolean doorLock;
-    public RoomOptionsDto(String name, boolean induction, boolean microwave, boolean airConditioner,
+    private boolean fireAlarm;
+    private boolean videoPhone;
+    private boolean common_entrance;
+    private boolean cctv;
+    private boolean interPhone;
+
+    public RoomOptionsDto(String building_name, boolean induction, boolean microwave, boolean airConditioner,
                           boolean tv, boolean bed, boolean desk, boolean shoeCloset, boolean gasRange,
-                          boolean refrigerator, boolean doorLock){
-        this.name = name;
+                          boolean refrigerator, boolean doorLock, boolean fireAlarm, boolean videoPhone,
+                          boolean common_entrance, boolean cctv, boolean interPhone){
+        this.building_name = building_name;
         this.induction = induction;
         this.microwave = microwave;
         this.airConditioner = airConditioner;
@@ -31,5 +38,10 @@ public class RoomOptionsDto {
         this.gasRange = gasRange;
         this.refrigerator = refrigerator;
         this.doorLock = doorLock;
+        this.fireAlarm = fireAlarm;
+        this.videoPhone = videoPhone;
+        this.common_entrance = common_entrance;
+        this.cctv = cctv;
+        this.interPhone = interPhone;
     }
 }
