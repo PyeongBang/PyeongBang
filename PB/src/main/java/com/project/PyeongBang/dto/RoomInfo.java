@@ -6,16 +6,16 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RoomInfo {
-    private int room_id;
+    private int room_id; // 매물번호
     private String realStates_phone;
     private String building_name;
     private String room_type;
     private String address;
-    private String monthly_estimated_cost;
+    private String monthly_estimated_cost; // 한달 예상 주거비용
     private String monthly; // 월세
-    private String administrative_expense;
+    private String administrative_expense; // 관리비
     private String parking;
-    private boolean short_term_rental;
+    private boolean short_term_rental; // 단기임대
 
     public RoomInfo(int room_id, String realStates_phone, String building_name, String room_type,
                     String address, String monthly_estimated_cost, String monthly, String administrative_expense,

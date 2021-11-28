@@ -7,17 +7,17 @@ import lombok.Setter;
 @Setter
 public class RoomDetailsDto {
     private int num;
-    private int room_id;
-    private int floor;
-    private String size;
+    private int room_id; // 매물 번호
+    private int floor; // 층수
+    private String size; // 방 크기
     private int room_cnt; // 방 개수
     private String heating; // 난방 방법
     private String built_in;
     private int parking; // 주차 공간 개수
     private boolean elevator;
     private boolean balcony;
-    private String move_in_date;
-    private String approved_date;
+    private String move_in_date; // 입주 날짜
+    private String approved_date; // 승인 날짜
 
     public RoomDetailsDto(int num, int room_id, int floor, String size, int room_cnt, String heating,
                           String built_in, int parking, boolean elevator, boolean balcony,
