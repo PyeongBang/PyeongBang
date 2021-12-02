@@ -1,15 +1,11 @@
 package com.project.PyeongBang.controller;
 
-import com.project.PyeongBang.dto.RealStatesDto;
-import com.project.PyeongBang.service.MainSvc;
 import com.project.PyeongBang.service.UserSvc;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
