@@ -15,7 +15,7 @@ public class MainSvc {
     @Autowired
     private RealStatesMapper realStatesMapper;
 
-    public Map<String, List<RealStatesDto>> getMain(){
+    public Map<String, List<RealStatesDto>> getMain(){ // 메인 페이지에 공인중개사 데이터 전송
         Map<String, List<RealStatesDto>> realStates_map = new HashMap<>();
         List<RealStatesDto> realStates_list = new ArrayList(realStatesMapper.getRealStates());
         realStates_map.put("realStatesInfo", realStates_list);

@@ -10,19 +10,19 @@ public class UserSvc {
     @Autowired
     private UserMapper mapper;
 
-    public String login(String id, String pwd) throws Exception{
+    public String login(String id, String pwd){ // 구현 완료
         return this.mapper.login(id, pwd);
     }
 
-    public void insertUser(String id, String name, String pwd, String major) throws Exception{
+    public void insertUser(String id, String name, String pwd, String major){ // 구현 완료
         this.mapper.insertUser(id, name, pwd, major);
     }
 
-    public void updateUserPwd(String id, String updatePwd) throws Exception{
+    public void updateUserPwd(String id, String updatePwd){
         this.mapper.updateUserPwd(id, updatePwd);
     }
 
-    public void deleteUser(String id, String pwd) throws Exception{
+    public void deleteUser(String id, String pwd){
         this.mapper.deleteUser(id, pwd);
     }
 }

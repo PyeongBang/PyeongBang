@@ -14,7 +14,7 @@ import java.util.Map;
 public class MainController {
     private final MainSvc mainService;
 
-    @GetMapping("/main")
+    @GetMapping("/main") // main page
     public Map<String, List<RealStatesDto>> getMain() {
         return mainService.getMain();
     }
