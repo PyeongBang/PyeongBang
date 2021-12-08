@@ -16,6 +16,6 @@ public interface UserMapper {
     @Update("update user set pwd=#{pwd} where id=#{id}") // 비밀번호 변경
     void updateUserPwd(@Param("id") String id, @Param("pwd") String pwd);
 
-    @Delete("delete from user where id=#{id} and password=#{pwd}") // 회원 탈퇴
+    @Delete("delete from user where id=#{id} and pwd=#{pwd}") // 회원 탈퇴
     void deleteUser(@Param("id") String id, @Param("pwd") String pwd);
 }
