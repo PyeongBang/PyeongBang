@@ -20,9 +20,9 @@ public class UserSvc {
 
     public void updateUserPwd(String id, String updatePwd){
         this.mapper.updateUserPwd(id, updatePwd);
-    }
+    } // 구현 완료
 
-    public void deleteUser(String id, String pwd){
+    public void deleteUser(String id, String pwd){ // 구현 완료
         this.mapper.deleteUser(id, pwd);
     }
 }
