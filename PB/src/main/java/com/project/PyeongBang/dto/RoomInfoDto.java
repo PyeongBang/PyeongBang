@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RoomInfo {
+public class RoomInfoDto {
     private int room_id; // 매물번호
     private String realStates_phone;
     private String building_name;
@@ -17,9 +17,9 @@ public class RoomInfo {
     private String parking;
     private boolean short_term_rental; // 단기임대
 
-    public RoomInfo(int room_id, String realStates_phone, String building_name, String room_type,
-                    String address, String monthly_estimated_cost, String monthly, String administrative_expense,
-                    String parking, boolean short_term_rental){
+    public RoomInfoDto(int room_id, String realStates_phone, String building_name, String room_type,
+                       String address, String monthly_estimated_cost, String monthly, String administrative_expense,
+                       String parking, boolean short_term_rental){
         this.room_id = room_id;
         this.realStates_phone = realStates_phone;
         this.building_name = building_name;

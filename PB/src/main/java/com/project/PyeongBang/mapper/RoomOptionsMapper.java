@@ -1,6 +1,5 @@
 package com.project.PyeongBang.mapper;
 
-import com.project.PyeongBang.dto.RoomDetailsDto;
 import com.project.PyeongBang.dto.RoomOptionsDto;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -16,7 +15,7 @@ public interface RoomOptionsMapper {
 
     // 건물 이름에 부합하는 방의 옵션들을 가져옴
     @Select("select * from roomoptions where building_name = #{building_name}")
-    List<RoomOptionsDto> getRoomOptions(@Param("building_name") int building_name);
+    List<RoomOptionsDto> getRoomOptions(@Param("building_name") String building_name);
 
     // room option 추가하기
     @Insert("insert into roomoptions values(#{building_name}, #{induction}, #{microwave}, #{airConditioner}, #{tv}," +
