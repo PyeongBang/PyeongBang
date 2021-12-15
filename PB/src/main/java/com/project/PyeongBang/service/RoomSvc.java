@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.xml.soap.Detail;
 import java.util.List;
 
 @Service
@@ -23,23 +22,25 @@ public class RoomSvc {
     private RoomOptionsDto roomOptionsDto;
     private RoomDetailsDto roomDetailsDto;
     private RoomInfoDto roomInfoDto;
-    private DetailResponseDto rawVO;
 
-    public void addRoomInfo(@RequestBody RoomInfoDto roomInfoDto){ // roomInfo 추가
+    // roomInfo 추가
+    public void addRoomInfo(@RequestBody RoomInfoDto roomInfoDto){
         roomInfoMapper.insertRoomInfo(roomInfoDto.getRoom_id(), roomInfoDto.getRealStates_phone(), roomInfoDto.getBuilding_name(),
                 roomInfoDto.getRoom_type(), roomInfoDto.getAddress(), roomInfoDto.getMonthly_estimated_cost(),
                 roomInfoDto.getMonthly(), roomInfoDto.getAdministrative_expense(), roomInfoDto.getParking(),
                 roomInfoDto.isShort_term_rental());
     }
 
-    public void addRoomDetails(@RequestBody RoomDetailsDto roomDetailsDto){ // room details 추가
+    // room details 추가
+    public void addRoomDetails(@RequestBody RoomDetailsDto roomDetailsDto){
         roomDetailsMapper.insertRoomDetails(roomDetailsDto.getNum(), roomDetailsDto.getRoom_id(), roomDetailsDto.getFloor(),
                 roomDetailsDto.getSize(), roomDetailsDto.getRoom_cnt(), roomDetailsDto.getHeating(), roomDetailsDto.getBuilt_in(),
                 roomDetailsDto.getParking(), roomDetailsDto.isElevator(), roomDetailsDto.isBalcony(), roomDetailsDto.getMove_in_date(),
                 roomDetailsDto.getApproved_date());
     }
 
-    public void addRoomOptions(@RequestBody RoomOptionsDto roomOptionsDto){ // room options 추가
+    // room options 추가
+    public void addRoomOptions(@RequestBody RoomOptionsDto roomOptionsDto){
         roomOptionsMapper.insertRoomOptions(roomOptionsDto.getBuilding_name(), roomOptionsDto.isInduction(), roomOptionsDto.isMicrowave(),
                 roomOptionsDto.isAirConditioner(), roomOptionsDto.isTv(), roomOptionsDto.isBed(), roomOptionsDto.isDesk(),
                 roomOptionsDto.isShoeCloset(), roomOptionsDto.isGasRange(), roomOptionsDto.isRefrigerator(), roomOptionsDto.isDoorLock(),
@@ -47,10 +48,12 @@ public class RoomSvc {
                 roomOptionsDto.isCctv(), roomOptionsDto.isInterPhone());
     }
 
+    // 모든 매물 return
     public List<RoomInfoDto> getAllRoomInfo(){
         return roomInfoMapper.getAllRoomInfo();
     }
 
+    // 매물 info + detail + options
     public DetailResponseDto selectRoomInfo(int num, int room_id){
         List<RoomInfoDto> roomInfoList = roomInfoMapper.getRoomInfo(room_id);
         List<RoomOptionsDto> roomOptionsList = roomOptionsMapper.getRoomOptions(roomInfoList.get(0).getBuilding_name());
@@ -60,19 +63,18 @@ public class RoomSvc {
         return detailResponseDto;
     }
 
+    // 건물 이름으로 검색
     public List<RoomInfoDto> selectBuildingNameInfo(String building_name){
         return roomInfoMapper.selectBuildingName(building_name);
     }
 
-    public List<RoomDetailsDto> getRoomDetails(int room_id){
-        return roomDetailsMapper.getRoomIdDetails(room_id);
-    }
-
-    public List<RoomOptionsDto> getRoomOptions(String building_name){
-        return roomOptionsMapper.getRoomOptions(building_name);
-    }
-
+    // 주소로 매물 검색
     public List<RoomInfoDto> selectAddress(String address){
         return roomInfoMapper.selectAddress(address);
+    }
+
+    // 건물의 옵션 검색
+    public List<RoomOptionsDto> getRoomOptions(String building_name){
+        return roomOptionsMapper.getRoomOptions(building_name);
     }
 }

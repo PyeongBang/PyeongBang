@@ -12,14 +12,16 @@ import javax.servlet.http.HttpSession;
 public class UserController {
     private final UserSvc userService;
 
-    @PostMapping("/login") // 로그인
+    // 로그인
+    @PostMapping("/login")
     public String login(HttpServletRequest httpServletRequest) throws Exception {
         String id = httpServletRequest.getParameter("id");
         String pwd = httpServletRequest.getParameter("pwd");
         return userService.login(id, pwd); // return 사용자 이름
     }
 
-    @PostMapping("/newMember") // 회원가입
+    // 회원가입
+    @PostMapping("/newMember")
     public String joinMember(HttpServletRequest httpServletRequest) throws Exception {
         String id = httpServletRequest.getParameter("id");
         String name = httpServletRequest.getParameter("name");
@@ -29,7 +31,8 @@ public class UserController {
         return "login page url"; // return 로그인 페이지
     }
 
-    @GetMapping("/logout") // 로그아웃
+    // 로그아웃
+    @GetMapping("/logout")
     public String logout(HttpSession session){
         session.invalidate(); // 모든 세션을 종료
         /* 특정 세션만 종료  session에 해당하는 이름을 매개변수에 넣기
@@ -38,7 +41,8 @@ public class UserController {
         return "login page url";
     }
 
-    @PutMapping("/modify") // 비밀번호 수정 후 재로그인
+    // 비밀번호 수정 후 재로그인
+    @PutMapping("/modify")
     public String modifyMember(HttpServletRequest httpServletRequest, HttpSession session) throws Exception {
         // 기존 id와 변경을 원하는 새로운 pwd를 입력받기
         String id = httpServletRequest.getParameter("id");
@@ -48,7 +52,8 @@ public class UserController {
         return "login page url"; // 로그인 페이지 direct
     }
 
-    @DeleteMapping("/delete") // 회원 탈퇴
+    // 회원 탈퇴
+    @DeleteMapping("/delete")
     public String deleteMember(HttpServletRequest httpServletRequest){
         String id = httpServletRequest.getParameter("id");
         String pwd = httpServletRequest.getParameter("pwd");

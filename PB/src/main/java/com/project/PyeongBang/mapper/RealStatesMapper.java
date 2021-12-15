@@ -13,9 +13,11 @@ public interface RealStatesMapper {
     @Select("select * from realstates")
     List<RealStatesDto> getRealStates();
 
-    @Insert("insert into realstates values(#{phone}, #{user_id}, #{name}, #{address})") // 공인중개사 추가 name : 공인중개사 이름
+    // 공인중개사 추가 name : 공인중개사 이름
+    @Insert("insert into realstates values(#{phone}, #{user_id}, #{name}, #{address})")
     void insertUser(@Param("phone") String phone, @Param("user_id") String user_id, @Param("name") String name, @Param("address") String address);
 
-    @Delete("delete from realstates where phone=#{phone} and user_id=#{user_id}") // 공인중개사 삭제
+    // 공인중개사 삭제
+    @Delete("delete from realstates where phone=#{phone} and user_id=#{user_id}")
     void deleteUser(@Param("phone") String phone, @Param("user_id") String user_id);
 }

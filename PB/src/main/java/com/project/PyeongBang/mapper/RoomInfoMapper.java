@@ -21,12 +21,13 @@ public interface RoomInfoMapper {
     @Select("select * from roominfo where room_id = #{room_id}")
     List<RoomInfoDto> getRoomInfo(@Param("room_id") int room_id);
 
-    // 빌딩 이름으로 검색하기
+    // 빌딩 이름으로 매물 검색하기
     @Select("select * from roominfo where building_name like CONCAT('%',#{building_name},'%')")
     List<RoomInfoDto> selectBuildingName(@Param("building_name") String building_name);
 
-    @Select("select * from roominfo where address like CONCAT('%',#{building_name},'%')")
-    List<RoomInfoDto> selectAddress(@Param("building_name") String building_name);
+    // 주소로 매물 검색
+    @Select("select * from roominfo where address like CONCAT('%',#{address},'%')")
+    List<RoomInfoDto> selectAddress(@Param("address") String address);
 
     // room information 추가
     @Insert("insert into roominfo values(#{room_id}, #{realStates_phone}, #{building_name}, #{room_type}, #{address}," +
