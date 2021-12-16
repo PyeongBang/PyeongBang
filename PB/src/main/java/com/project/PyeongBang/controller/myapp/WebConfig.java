@@ -1,4 +1,4 @@
-package com.myapp;
+package com.project.PyeongBang.controller.myapp;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -14,6 +14,6 @@ public class WebConfig implements WebMvcConfigurer {
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**").allowCredentials(true).allowedOrigins("http://localhost:3000");
+        registry.addMapping("/api/**").allowCredentials(true).allowedOrigins("http://localhost:3000").allowedMethods("POST","GET","PUT","DELETE","HEAD","OPTIONS");
     }
 }
