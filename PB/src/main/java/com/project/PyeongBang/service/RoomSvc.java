@@ -22,11 +22,6 @@ public class RoomSvc {
     @Autowired
     private PositionMapper positionMapper;
 
-    private RoomOptionsDto roomOptionsDto;
-    private RoomDetailsDto roomDetailsDto;
-    private RoomInfoDto roomInfoDto;
-    private PositionDto positionDto;
-
     // roomInfo 추가
     public void addRoomInfo(@RequestBody RoomInfoDto roomInfoDto){
         roomInfoMapper.insertRoomInfo(roomInfoDto.getRoom_id(), roomInfoDto.getRealStates_phone(), roomInfoDto.getBuilding_name(),
@@ -64,8 +59,6 @@ public class RoomSvc {
         List<RoomDetailsDto> roomDetailsList = roomDetailsMapper.getRoomDetails(num, room_id);
         PositionDto positionDto1 = positionMapper.getPosition(major);
         PositionDto positionDto2 = positionMapper.getPosition(roomInfoList.get(0).getBuilding_name().substring(0, 2));
-        System.out.println(positionDto1.getName());
-        System.out.println(positionDto2.getName());
         String di = distance(Double.parseDouble(positionDto1.getY()), Double.parseDouble(positionDto1.getX()), Double.parseDouble(positionDto2.getY()), Double.parseDouble(positionDto2.getX()));
 
         DetailBeforeDto detailBeforeDto = new DetailBeforeDto(roomInfoList.get(0), roomDetailsList.get(0), roomOptionsList.get(0), di);
@@ -95,6 +88,7 @@ public class RoomSvc {
 
         dist = Math.acos(dist);
         dist = rad2deg(dist);
+        // meter 단위 값 변환
         dist = dist * 60 * 1.1515 * 1609.344;
         return Double.toString(Math.round(dist) + 150); // 150 오차범위
     }
