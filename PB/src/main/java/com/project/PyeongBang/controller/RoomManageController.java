@@ -36,7 +36,8 @@ public class RoomManageController {
     public DetailResponseDto selectRoomInfo(HttpServletRequest httpServletRequest){
         int num = Integer.parseInt(httpServletRequest.getParameter("num"));
         int room_id = Integer.parseInt(httpServletRequest.getParameter("room_id"));
-        return roomSvc.selectRoomInfo(num, room_id);
+        String major = httpServletRequest.getParameter("major");
+        return roomSvc.selectRoomInfo(num, room_id, major);
     }
 
     // 빌딩 이름으로 검색

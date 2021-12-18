@@ -47,6 +47,8 @@ public class DetailResponseDto {
     private boolean cctv;
     private boolean interPhone;
 
+    private String distance;
+
     public DetailResponseDto(DetailBeforeDto detailBeforeDto){
         this.room_id = detailBeforeDto.getInfo().getRoom_id();
         this.realStates_phone = detailBeforeDto.getInfo().getRealStates_phone();
@@ -85,5 +87,7 @@ public class DetailResponseDto {
         this.common_entrance = detailBeforeDto.getOptions().isCommon_entrance();
         this.cctv = detailBeforeDto.getOptions().isCctv();
         this.interPhone = detailBeforeDto.getOptions().isInterPhone();
+
+        this.distance = detailBeforeDto.getDistance();
     }
 }

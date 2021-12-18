@@ -1,6 +1,7 @@
 package com.project.PyeongBang.service;
 
 import com.project.PyeongBang.dto.*;
+import com.project.PyeongBang.mapper.PositionMapper;
 import com.project.PyeongBang.mapper.RoomDetailsMapper;
 import com.project.PyeongBang.mapper.RoomInfoMapper;
 import com.project.PyeongBang.mapper.RoomOptionsMapper;
@@ -18,10 +19,13 @@ public class RoomSvc {
     private RoomInfoMapper roomInfoMapper;
     @Autowired
     private RoomOptionsMapper roomOptionsMapper;
+    @Autowired
+    private PositionMapper positionMapper;
 
     private RoomOptionsDto roomOptionsDto;
     private RoomDetailsDto roomDetailsDto;
     private RoomInfoDto roomInfoDto;
+    private PositionDto positionDto;
 
     // roomInfo 추가
     public void addRoomInfo(@RequestBody RoomInfoDto roomInfoDto){
@@ -53,12 +57,18 @@ public class RoomSvc {
         return roomInfoMapper.getAllRoomInfo();
     }
 
-    // 매물 info + detail + options
-    public DetailResponseDto selectRoomInfo(int num, int room_id){
+    // 매물 info + detail + options + distance
+    public DetailResponseDto selectRoomInfo(int num, int room_id, String major){
         List<RoomInfoDto> roomInfoList = roomInfoMapper.getRoomInfo(room_id);
         List<RoomOptionsDto> roomOptionsList = roomOptionsMapper.getRoomOptions(roomInfoList.get(0).getBuilding_name());
         List<RoomDetailsDto> roomDetailsList = roomDetailsMapper.getRoomDetails(num, room_id);
-        DetailBeforeDto detailBeforeDto = new DetailBeforeDto(roomInfoList.get(0), roomDetailsList.get(0), roomOptionsList.get(0));
+        PositionDto positionDto1 = positionMapper.getPosition(major);
+        PositionDto positionDto2 = positionMapper.getPosition(roomInfoList.get(0).getBuilding_name().substring(0, 2));
+        System.out.println(positionDto1.getName());
+        System.out.println(positionDto2.getName());
+        String di = distance(Double.parseDouble(positionDto1.getY()), Double.parseDouble(positionDto1.getX()), Double.parseDouble(positionDto2.getY()), Double.parseDouble(positionDto2.getX()));
+
+        DetailBeforeDto detailBeforeDto = new DetailBeforeDto(roomInfoList.get(0), roomDetailsList.get(0), roomOptionsList.get(0), di);
         DetailResponseDto detailResponseDto = new DetailResponseDto(detailBeforeDto);
         return detailResponseDto;
     }
@@ -76,5 +86,22 @@ public class RoomSvc {
     // 건물의 옵션 검색
     public List<RoomOptionsDto> getRoomOptions(String building_name){
         return roomOptionsMapper.getRoomOptions(building_name);
+    }
+
+    // 좌표 거리계산 (위도1, 경도1, 위도2, 경도2)
+    private String distance(double lat1, double lon1, double lat2, double lon2){
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515 * 1609.344;
+        return Double.toString(Math.round(dist) + 150); // 150 오차범위
+    }
+    private static double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+    private static double rad2deg(double rad) {
+        return (rad * 180 / Math.PI);
     }
 }

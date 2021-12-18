@@ -7,9 +7,11 @@ public class DetailBeforeDto {
     private RoomInfoDto info;
     private RoomDetailsDto details;
     private RoomOptionsDto options;
-    public DetailBeforeDto(RoomInfoDto info, RoomDetailsDto details, RoomOptionsDto options){
+    private String distance;
+    public DetailBeforeDto(RoomInfoDto info, RoomDetailsDto details, RoomOptionsDto options, String distance){
         this.info = info;
         this.details = details;
         this.options = options;
+        this.distance = distance;
     }
 }
