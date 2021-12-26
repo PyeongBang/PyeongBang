@@ -1,0 +1,97 @@
+.Estates{
+    list-style:none;
+    display: flex;
+    width:100%;
+    height: 480px;
+    overflow-x:auto;
+    white-space: nowrap;
+    float: left;
+}
+
+.item-card{ /*아이템 컨테이너*/
+    display: flex;
+    padding-top:20px;
+    padding-left:25px;
+    padding-right:25px;
+    border-right: 1px solid rgb(231, 231, 231);
+    cursor: pointer;
+    float:left;
+}
+
+.basicCard{ /*아이템 내부 컨테이너*/
+    display: flex;
+    flex-direction: column;
+    padding: 5px 5px;
+    background-color: rgb(255, 255, 255);
+    user-select: none;
+}
+
+.gPEthp{ /*사진 wrapper*/
+    flex: 0 0 auto;
+    width: 250px;
+    height: 280px;
+    min-height: 250px;
+    position: relative;
+}
+
+.gMnRzx{ /*Image ami*/
+    flex: 0 0 auto;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 2px;
+    background-color: rgb(250, 250, 250);
+    background-size: 60px 60px;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.iamnls{ /*컨텐츠*/
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    width: 230px;
+    height: 100%;
+    padding-left: 20px;
+}
+
+.fOVNCS{ /*컨텐츠 Info wrapper*/
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+}
+
+.kPmScS{  /*Info name*/
+    color: rgb(34, 34, 34);
+    font-size: 18px;
+    font-weight: 700;
+    height: 27px;
+    margin-bottom: 4px;
+    line-height: 27px;
+}
+
+.fGfKPR{ /*Info type*/
+    color: rgb(34, 34, 34);
+    font-size: 13px;
+    font-weight: 400;
+    margin-bottom: 8px;
+    line-height: 19px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: visible;
+}
+
+.fYtEsj{ /*Info basic/other*/
+    color: rgb(34, 34, 34);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 20px;
+    width: 230px;
+    height: 50px;
+    white-space: normal;
+}

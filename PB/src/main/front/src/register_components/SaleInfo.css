@@ -1,0 +1,96 @@
+* {
+  box-sizing: border-box;
+}
+
+#saleInfo table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0px;
+}
+
+#saleInfo table tr {
+  height: 70px;
+}
+
+#saleInfo table th {
+  min-width: 150px;
+  color: rgb(34, 34, 34);
+  font-size: 15px;
+  font-weight: 500;
+  background-color: rgb(249, 249, 249);
+  vertical-align: middle;
+}
+
+#saleInfo table td {
+  vertical-align: middle;
+}
+
+#saleInfo menu, #saleInfo ol, #saleInfo ul {
+  list-style: none;
+}
+
+#saleInfo table td > ul {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  padding: 0px 20px;
+}
+
+#saleInfo table td > ul > li {
+  flex: 0 0 auto;
+}
+
+#saleInfo table td > ul > li + li {
+    margin-left: 10px;
+}
+
+#saleInfo table td > ul > li > label {
+  display: block;
+  position: relative;
+  cursor: pointer;
+}
+
+#saleInfo table td > ul > li > label > input[type="radio"] {
+  width: 0px;
+  height: 0px;
+  opacity: 0;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+#saleInfo select, #saleInfo input, #saleInfo textarea, #saleInfo a {
+  outline: none;
+}
+
+#saleInfo input, #saleInfo textarea {
+  user-select: text;
+}
+
+#saleInfo textarea, #saleInfo input {
+  appearance: none;
+}
+
+#saleInfo table td > ul > li > label > input[type="radio"]:checked + p {
+  color: rgb(255, 255, 255);
+  border-color: rgb(50, 108, 249);
+  background-color: rgb(50, 108, 249);
+}
+
+#saleInfo table td > ul > li > label > p {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  min-width: 82px;
+  height: 46px;
+  padding: 0px 15px;
+  color: rgb(102, 102, 102);
+  font-size: 14px;
+  border: 1px solid rgb(217, 217, 217);
+  border-radius: 3px;
+  background-color: rgb(255, 255, 255);
+  user-select: none;
+  font-weight: 600;
+}

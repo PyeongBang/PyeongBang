@@ -1,0 +1,137 @@
+* {
+  box-sizing: border-box;
+}
+
+#addressInfo table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0px;
+}
+
+#addressInfo table tr {
+  height: 70px;
+}
+
+#addressInfo table th {
+  min-width: 150px;
+  color: rgb(34, 34, 34);
+  font-size: 15px;
+  font-weight: 500;
+  background-color: rgb(249, 249, 249);
+  vertical-align: middle;
+}
+
+#addressInfo table td {
+  vertical-align: middle;
+}
+
+#addressInfo table td > div {
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+#addressInfo table td > div > div {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  width: 530px;
+  height: 100%;
+}
+
+#addressInfo table td > div > div > p {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  height: 20px;
+  color: rgb(136, 136, 136);
+  font-size: 14px;
+  line-height: 20px;
+  user-select: none;
+}
+
+#addressInfo menu, #addressInfo ol, #addressInfo ul {
+  list-style: none;
+}
+
+#addressInfo select, input, textarea, a {
+  outline: none;
+}
+
+#addressInfo input, textarea {
+  user-select: text;
+}
+
+#addressInfo textarea, input {
+  appearance: none;
+}
+
+#addressInfo h1 > span {
+  margin-right: 18px;
+  color: rgb(136, 136, 136);
+  font-size: 14px;
+  font-weight: 400;
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  transform: translateY(-50%);
+}
+
+#addressInfo table form {
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  margin: 15px 0px 10px;
+}
+
+#addressInfo form > input[type="text"] {
+  padding: 0px 16px;
+  color: rgb(76, 76, 76);
+  font-size: 14px;
+  border: 1px solid rgb(223, 223, 223);
+  border-radius: 2px;
+  background-color: rgb(255, 255, 255);
+  width: 430px;
+  height: 46px;
+}
+
+#addressInfo form > input[type="button"] {
+  -webkit-box-flex: 1;
+  flex-grow: 1;
+  height: 46px;
+  margin-left: 10px;
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+  font-weight: 500;
+  border: 0px;
+  border-radius: 3px;
+  background-color: rgb(35, 45, 74);
+  user-select: none;
+}
+
+#addressInfo form + div {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  width: 530px;
+  height: 100px;
+  padding: 0px 15px;
+  border: 1px solid rgb(208, 210, 214);
+  background-color: rgb(255, 255, 255);
+}
+
+#addressInfo form + div > p {
+  color: rgb(136, 136, 136);
+  font-size: 15px;
+  line-height: 22px;
+}
+
+#addressInfo form + div > p > span {
+  display: inline-block;
+  width: 60px;
+  height: 25px;
+  line-height: 25px;
+}

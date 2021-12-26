@@ -1,29 +1,23 @@
-import logo from './logo.svg';
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, Component} from 'react';
 import './App.css';
+import List from './components/List';
+import Demo from './components/demo';
+import Header from './components/Header';
+import Content from "./pages/Content";
+import Main from "./pages/Main";
+import Register from "./pages/Register";
+import axios from "axios";
+import Estates from './components/Estates';
+import Detail from './pages/Detail';
+import Board from "./pages/Board";
 
-function App() {
-  const [message, setMessage] = useState("");
-
-  useEffect(()=>{
-      fetch('/home')
-          .then(response => response.text())
-          .then(message =>{
-          setMessage(message);
-          });
-      },[])
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo"/>
-          <hi className="App-title">{message}</hi>
-      </header>
-        <p className="App-intro">
-            To get started, edit <code>src/App.js</code> and save to reload
-        </p>
-    </div>
-  );
+class App extends Component{
+    render(){
+        return (
+            <React.Fragment>
+                <Board/>
+            </React.Fragment>
+        );
+    }
 }
-
 export default App;
