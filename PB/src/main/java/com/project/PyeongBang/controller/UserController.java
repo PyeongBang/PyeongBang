@@ -1,6 +1,7 @@
 package com.project.PyeongBang.controller;
 
 import com.project.PyeongBang.dto.UserDto;
+import com.project.PyeongBang.dto.validation.LoginValidator;
 import com.project.PyeongBang.dto.validation.UserValidator;
 import com.project.PyeongBang.service.UserSvc;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +19,14 @@ public class UserController {
 
     // 로그인
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
-    public String login(@RequestBody UserDto req) throws Exception {
-        String id = req.getId();
-        String pwd = req.getPwd();
-        return userService.login(id, pwd);
+    public String login(@RequestBody UserDto req, Errors errors) throws Exception {
+
+        // login validation check
+        new LoginValidator().validate(req, errors);
+        if(errors.hasErrors()){
+            return ResponseEntity.badRequest().body(errors).toString();
+        }
+        return userService.login(req.getId(), req.getPwd());
     }
 
     // 회원가입

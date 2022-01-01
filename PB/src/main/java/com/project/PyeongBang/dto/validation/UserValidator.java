@@ -22,4 +22,6 @@ public class UserValidator implements Validator {
             e.reject("pw 오류", "pw는 7자리 이상 입력해주세요");
         }
     }
+
+
 }
