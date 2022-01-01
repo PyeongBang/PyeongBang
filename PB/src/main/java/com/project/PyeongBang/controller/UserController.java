@@ -1,7 +1,11 @@
 package com.project.PyeongBang.controller;
 
+import com.project.PyeongBang.dto.UserDto;
+import com.project.PyeongBang.dto.validation.UserValidator;
 import com.project.PyeongBang.service.UserSvc;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,21 +17,25 @@ public class UserController {
     private final UserSvc userService;
 
     // 로그인
-    @PostMapping("/login")
-    public String login(HttpServletRequest httpServletRequest) throws Exception {
-        String id = httpServletRequest.getParameter("id");
-        String pwd = httpServletRequest.getParameter("pwd");
-        return userService.login(id, pwd); // return 사용자 이름
+    @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
+    public String login(@RequestBody UserDto req) throws Exception {
+        String id = req.getId();
+        String pwd = req.getPwd();
+        return userService.login(id, pwd);
     }
 
     // 회원가입
-    @PostMapping("/newMember")
-    public String joinMember(HttpServletRequest httpServletRequest) throws Exception {
-        String id = httpServletRequest.getParameter("id");
-        String name = httpServletRequest.getParameter("name");
-        String pwd = httpServletRequest.getParameter("pwd");
-        String major = httpServletRequest.getParameter("major");
-        userService.insertUser(id, name, pwd, major);
+    @ResponseBody
+    @RequestMapping(value = "/newMember", method = RequestMethod.POST, produces = "application/json")
+    public String joinMember(@RequestBody UserDto req, Errors errors) throws Exception {
+
+        // user validation check
+        new UserValidator().validate(req, errors);
+        if(errors.hasErrors()){
+            return ResponseEntity.badRequest().body(errors).toString();
+        }
+
+        userService.insertUser(req.getId(), req.getName(), req.getPwd(), req.getMajor());
         return "login page url"; // return 로그인 페이지
     }
 
