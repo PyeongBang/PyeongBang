@@ -15,7 +15,7 @@ public class RoomInfoDto {
     private String monthly; // 월세
     private String administrative_expense; // 관리비
     private String parking;
-    private boolean short_term_rental; // 단기임대
+    private boolean short_term_rental; // 단기임대 /  0 불가, 1 가능
 
     public RoomInfoDto(int room_id, String realStates_phone, String building_name, String room_type,
                        String address, String monthly_estimated_cost, String monthly, String administrative_expense,

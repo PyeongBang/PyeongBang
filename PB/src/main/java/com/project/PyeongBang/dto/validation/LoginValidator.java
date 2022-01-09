@@ -10,6 +10,7 @@ public class LoginValidator implements Validator {
 
     public void validate(Object obj, Errors e){
         UserDto u = (UserDto) obj;
+
         if(u.getId().length() < 1) {
             e.reject("id 오류", "id를 입력해주세요");
         }

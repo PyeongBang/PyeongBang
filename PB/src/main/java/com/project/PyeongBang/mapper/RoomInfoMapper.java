@@ -31,7 +31,7 @@ public interface RoomInfoMapper {
 
     // room information 추가
     @Insert("insert into roominfo values(#{room_id}, #{realStates_phone}, #{building_name}, #{room_type}, #{address}," +
-            " #{monthly_estimated_cost}, #{monthly}, #{administrative_expense}, #{parking}, #{short_term_rental}")
+            " #{monthly_estimated_cost}, #{monthly}, #{administrative_expense}, #{parking}, #{short_term_rental})")
     void insertRoomInfo(@Param("room_id") int room_id, @Param("realStates_phone") String realStates_phone, @Param("building_name") String building_name,
                         @Param("room_type") String room_type, @Param("address") String address, @Param("monthly_estimated_cost") String monthly_estimated_cost,
                         @Param("monthly") String monthly, @Param("administrative_expense") String administrative_expense, @Param("parking") String parking,
