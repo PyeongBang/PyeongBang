@@ -1,16 +1,19 @@
 package com.project.PyeongBang.controller;
 
+import com.project.PyeongBang.dto.LoginDto;
 import com.project.PyeongBang.dto.UserDto;
 import com.project.PyeongBang.dto.validation.LoginValidator;
 import com.project.PyeongBang.dto.validation.UserValidator;
 import com.project.PyeongBang.service.UserSvc;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 
 @RequiredArgsConstructor
@@ -20,28 +23,51 @@ public class UserController {
 
     // 로그인
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
-    public String login(@RequestBody UserDto req, Errors errors) throws Exception {
+    public String login(@Valid @RequestBody LoginDto req, BindingResult bindingResult) throws Exception {
 
-        // login validation check
+
+        /** common class validation check**/
+        /*
         new LoginValidator().validate(req, errors);
         if(errors.hasErrors()){
             return ResponseEntity.badRequest().body(errors).toString();
         }
+        return userService.login(req.getId(), req.getPwd())
+         */
+
+        /** hibernate validator check **/
+        if(bindingResult.hasErrors()){
+            return bindingResult.getFieldError().toString();
+        }
+
         return userService.login(req.getId(), req.getPwd());
     }
 
     // 회원가입
     @ResponseBody
     @RequestMapping(value = "/newMember", method = RequestMethod.POST, produces = "application/json")
-    public String joinMember(@RequestBody UserDto req, Errors errors) throws Exception {
+    public String joinMember(@Valid @RequestBody UserDto req, BindingResult bindingResult) throws Exception {
 
-        // user validation check
+        /** user validation check**/
+        /*
         new UserValidator().validate(req, errors);
         if(errors.hasErrors()){
             return ResponseEntity.badRequest().body(errors).toString();
         }
+         */
 
+        /** hibernate validator check **/
+        if(bindingResult.hasErrors()){
+            System.out.println(1);
+            return bindingResult.getFieldError().toString();
+        }
+        if(userService.duplicateCheck(req.getId()) != null){
+            System.out.println(2);
+            return "동일한 id가 이미 존재합니다. 다른 아이디를 입력해주세요";
+        }
+        System.out.println(3);
         userService.insertUser(req.getId(), req.getName(), req.getPwd(), req.getMajor());
+        System.out.println(4);
         return "login page url"; // return 로그인 페이지
     }
 

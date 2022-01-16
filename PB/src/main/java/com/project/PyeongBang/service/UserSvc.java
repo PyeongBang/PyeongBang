@@ -14,6 +14,10 @@ public class UserSvc {
         return this.mapper.login(id, pwd);
     }
 
+    public String duplicateCheck(String id){
+        return this.mapper.duplicateCheck(id);
+    }
+
     public void insertUser(String id, String name, String pwd, String major){ // 구현 완료
         this.mapper.insertUser(id, name, pwd, major);
     }
