@@ -10,10 +10,12 @@ import com.project.PyeongBang.dto.validation.RoomOptionsValidator;
 import com.project.PyeongBang.service.RoomSvc;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -23,38 +25,64 @@ public class RoomManageController {
 
     // add room info
     @RequestMapping(value = "/postroominfo", method = RequestMethod.POST, produces = "application/json")
-    public String addRoomInfo(@RequestBody RoomInfoDto roomInfoDto, Errors errors) {
-        // RoomInfo validation check
+    public String addRoomInfo(@Valid @RequestBody RoomInfoDto roomInfoDto, BindingResult bindingResult) {
+        /** common class RoomInfo validation check **/
+        /*
         new RoomInfoValidator().validate(roomInfoDto, errors);
         if(errors.hasErrors()){
             return ResponseEntity.badRequest().body(errors).toString();
         }else{
             roomSvc.addRoomInfo(roomInfoDto);
         }
+         */
+
+        /** hibernate validation check**/
+        if(bindingResult.hasErrors()){
+            return bindingResult.getFieldError().getField();
+        }else{
+            roomSvc.addRoomInfo((roomInfoDto));
+        }
         return "추가 완료";
     }
 
     // add room details
     @RequestMapping(value = "/roomdetails", method = RequestMethod.POST, produces = "application/json")
-    public String addRoomDetails(@RequestBody RoomDetailsDto roomDetailsDto, Errors errors) {
-        // RoomDetails validation check
+    public String addRoomDetails(@Valid @RequestBody RoomDetailsDto roomDetailsDto, BindingResult bindingResult) {
+        /** common class RoomInfo validation check **/
+        /*
         new RoomDetailsValidator().validate(roomDetailsDto, errors);
         if(errors.hasErrors()){
             return ResponseEntity.badRequest().body(errors).toString();
         }else{
             roomSvc.addRoomDetails(roomDetailsDto);
+        }*/
+
+        /** hibernate validation check**/
+        if(bindingResult.hasErrors()){
+            return bindingResult.getFieldError().getField();
+        }else{
+            roomSvc.addRoomDetails(roomDetailsDto);
         }
+
         return "추가 완료";
     }
 
     // add room options
     @RequestMapping(value = "/roomOptions", method = RequestMethod.POST, produces = "application/json")
-    public String addRoomOptions(@RequestBody RoomOptionsDto roomOptionsDto, Errors errors) {
-        // RoomOptions validation check
+    public String addRoomOptions(@RequestBody RoomOptionsDto roomOptionsDto, BindingResult bindingResult) {
+        /** common class RoomInfo validation check **/
+        /*
         new RoomOptionsValidator().validate(roomOptionsDto, errors);
         if(errors.hasErrors()){
             return ResponseEntity.badRequest().body(errors).toString();
         } else{
+            roomSvc.addRoomOptions(roomOptionsDto);
+        }
+         */
+        /** hibernate validation check**/
+        if(bindingResult.hasErrors()){
+            return bindingResult.getFieldError().getField();
+        }else{
             roomSvc.addRoomOptions(roomOptionsDto);
         }
         return "추가 완료";

@@ -6,11 +6,13 @@ import com.project.PyeongBang.dto.validation.LoginValidator;
 import com.project.PyeongBang.dto.validation.UserValidator;
 import com.project.PyeongBang.service.UserSvc;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -37,7 +39,7 @@ public class UserController {
 
         /** hibernate validator check **/
         if(bindingResult.hasErrors()){
-            return bindingResult.getFieldError().toString();
+            return bindingResult.getFieldError().getField();
         }
 
         return userService.login(req.getId(), req.getPwd());
@@ -82,12 +84,15 @@ public class UserController {
     }
 
     // 비밀번호 수정 후 재로그인
-    @PutMapping("/modify")
-    public String modifyMember(HttpServletRequest httpServletRequest, HttpSession session) throws Exception {
+    @ResponseBody
+    @RequestMapping(value = "/modify", method = RequestMethod.POST, produces = "application/json")
+    public String modifyMember(@Valid @RequestBody LoginDto req, BindingResult bindingResult, HttpSession session) throws Exception {
         // 기존 id와 변경을 원하는 새로운 pwd를 입력받기
-        String id = httpServletRequest.getParameter("id");
-        String pwd = httpServletRequest.getParameter("pwd"); // 변경을 원하는 pwd
-        userService.updateUserPwd(id, pwd);
+
+        if(userService.duplicateCheck(req.getId()) == null){
+            return "존재하지 않는 아이디 입니다. 재시도 바랍니다.";
+        }
+        userService.updateUserPwd(req.getId(), req.getPwd());
         session.invalidate(); // pwd 변경 후 로그아웃 (세션 초기화)
         return "login page url"; // 로그인 페이지 direct
     }
