@@ -13,23 +13,16 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
-@EnableSwagger2
 public class SwaggerConfig{
     /**
      * Swagger 설정 핵심
      **/
     @Bean
-    public Docket docket(){
-        ApiInfoBuilder apiInfo = new ApiInfoBuilder();
-        apiInfo.title("API 서버 문서");
-        apiInfo.description("API 서버 문서 입니다.");
-
-        Docket docket = new Docket(DocumentationType.SWAGGER_2);
-        docket.apiInfo(apiInfo.build());
-
-        ApiSelectorBuilder apis = docket.select().apis(RequestHandlerSelectors.basePackage("kr.co.songjava.mvc.controller"));
-        apis.paths(PathSelectors.ant("/**"));
-
-        return apis.build();
+    public Docket api(){
+        return new Docket(DocumentationType.OAS_30)
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.any())
+                .build();
     }
 }
