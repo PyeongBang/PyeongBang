@@ -5,6 +5,7 @@ import com.project.PyeongBang.dto.UserDto;
 import com.project.PyeongBang.dto.validation.LoginValidator;
 import com.project.PyeongBang.dto.validation.UserValidator;
 import com.project.PyeongBang.service.UserSvc;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ public class UserController {
     private final UserSvc userService;
 
     // 로그인
+    @ApiOperation(value = "로그인", notes = "로그인 성공 시 login url 반환")
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
     public String login(@Valid @RequestBody LoginDto req, BindingResult bindingResult) throws Exception {
 
