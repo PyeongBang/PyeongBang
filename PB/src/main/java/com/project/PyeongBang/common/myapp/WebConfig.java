@@ -1,4 +1,4 @@
-package com.project.PyeongBang.controller.myapp;
+package com.project.PyeongBang.common.myapp;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

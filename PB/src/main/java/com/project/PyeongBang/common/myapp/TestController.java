@@ -1,4 +1,4 @@
-package com.project.PyeongBang.controller.myapp;
+package com.project.PyeongBang.common.myapp;
 
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;

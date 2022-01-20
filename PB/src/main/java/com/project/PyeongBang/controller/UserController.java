@@ -25,7 +25,7 @@ public class UserController {
     private final UserSvc userService;
 
     // 로그인
-    @ApiOperation(value = "로그인", notes = "로그인 성공 시 login url 반환")
+    @ApiOperation(value = "로그인 기능", notes = "id와 pwd 입력, 로그인 성공 시 메인 페이지로 이동")
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
     public String login(@Valid @RequestBody LoginDto req, BindingResult bindingResult) throws Exception {
 
@@ -43,11 +43,14 @@ public class UserController {
         if(bindingResult.hasErrors()){
             return bindingResult.getFieldError().getField();
         }
-
-        return userService.login(req.getId(), req.getPwd());
+        if(userService.login(req.getId(), req.getPwd()) != null){
+            return "main page url";
+        }
+        return "login failed, login page url";
     }
 
     // 회원가입
+    @ApiOperation(value = "회원가입 기능", notes = "필수 값으로 입력 후 id 중복확인 및 회원가입 진행")
     @ResponseBody
     @RequestMapping(value = "/newMember", method = RequestMethod.POST, produces = "application/json")
     public String joinMember(@Valid @RequestBody UserDto req, BindingResult bindingResult) throws Exception {
@@ -76,6 +79,7 @@ public class UserController {
     }
 
     // 로그아웃
+    @ApiOperation(value="로그아웃", notes="전체 세션 종료")
     @GetMapping("/logout")
     public String logout(HttpSession session){
         session.invalidate(); // 모든 세션을 종료
@@ -86,6 +90,7 @@ public class UserController {
     }
 
     // 비밀번호 수정 후 재로그인
+    @ApiOperation(value = "비밀번호 수정", notes ="비밀번호 수정 후 재로그인 페이지로 이동")
     @ResponseBody
     @RequestMapping(value = "/modify", method = RequestMethod.POST, produces = "application/json")
     public String modifyMember(@Valid @RequestBody LoginDto req, BindingResult bindingResult, HttpSession session) throws Exception {
@@ -100,6 +105,7 @@ public class UserController {
     }
 
     // 회원 탈퇴
+    @ApiOperation(value="회원탈퇴", notes = "id와 pwd 입력을 통한 인증 후 회원탈퇴")
     @DeleteMapping("/delete")
     public String deleteMember(HttpServletRequest httpServletRequest){
         String id = httpServletRequest.getParameter("id");

@@ -12,6 +12,7 @@ public class UserValidator implements Validator {
 
     public void validate(Object obj, Errors e){
         UserDto u = (UserDto) obj;
+        /*
         if(u.getId().length() < 3){
             e.reject("id 오류", "id는 3자리 이상 입력해주세요");
         }
@@ -20,7 +21,7 @@ public class UserValidator implements Validator {
         }
         else if(u.getPwd().length() < 7){
             e.reject("pw 오류", "pw는 7자리 이상 입력해주세요");
-        }
+        }*/
     }
 
 
