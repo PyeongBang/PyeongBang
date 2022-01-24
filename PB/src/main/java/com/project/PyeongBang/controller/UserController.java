@@ -2,8 +2,10 @@ package com.project.PyeongBang.controller;
 
 import com.project.PyeongBang.dto.LoginDto;
 import com.project.PyeongBang.dto.UserDto;
+import com.project.PyeongBang.service.UserSvc;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,8 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RestController
 public class UserController {
+
+    @Autowired
     private final UserSvc userService;
 
     // 로그인
@@ -100,7 +104,7 @@ public class UserController {
     // 회원 탈퇴
     @ApiOperation(value="회원탈퇴", notes = "id와 pwd 입력을 통한 인증 후 회원탈퇴")
     @DeleteMapping("/delete")
-    public String deleteMember(HttpServletRequest httpServletRequest){
+    public String deleteMember(HttpServletRequest httpServletRequest) throws Exception{
         String id = httpServletRequest.getParameter("id");
         String pwd = httpServletRequest.getParameter("pwd");
         if(userService.login(id, pwd) == null){
