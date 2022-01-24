@@ -2,18 +2,11 @@ package com.project.PyeongBang.controller;
 
 import com.project.PyeongBang.dto.LoginDto;
 import com.project.PyeongBang.dto.UserDto;
-import com.project.PyeongBang.dto.validation.LoginValidator;
-import com.project.PyeongBang.dto.validation.UserValidator;
-import com.project.PyeongBang.service.UserSvc;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.web.servlet.server.Session;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;

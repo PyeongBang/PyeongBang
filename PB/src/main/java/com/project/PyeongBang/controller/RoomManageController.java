@@ -4,16 +4,9 @@ import com.project.PyeongBang.dto.DetailResponseDto;
 import com.project.PyeongBang.dto.RoomDetailsDto;
 import com.project.PyeongBang.dto.RoomInfoDto;
 import com.project.PyeongBang.dto.RoomOptionsDto;
-import com.project.PyeongBang.dto.validation.RoomDetailsValidator;
-import com.project.PyeongBang.dto.validation.RoomInfoValidator;
-import com.project.PyeongBang.dto.validation.RoomOptionsValidator;
-import com.project.PyeongBang.service.RoomSvc;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;

@@ -1,7 +1,6 @@
 package com.project.PyeongBang.controller;
 
 import com.project.PyeongBang.dto.RealStatesDto;
-import com.project.PyeongBang.service.MainSvc;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,32 +1,20 @@
 package com.project.PyeongBang.service;
 
-import com.project.PyeongBang.mapper.UserMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+public interface UserSvc {
 
-@Service
-public class UserSvc {
+    /** 사용자 로그인 */
+    public String login(String id, String pwd) throws Exception;
 
-    @Autowired
-    private UserMapper mapper;
+    /** 회원가입 중복확인 */
+    public String duplicateCheck(String id) throws Exception;
 
-    public String login(String id, String pwd){ // 구현 완료
-        return this.mapper.login(id, pwd);
-    }
+    /** 회원가입 */
+    public void insertUser(String id, String name, String pwd, String major) throws Exception;
 
-    public String duplicateCheck(String id){
-        return this.mapper.duplicateCheck(id);
-    }
+    /** 비밀번호 수정 */
+    public void updateUserPwd(String id, String updatePwd) throws Exception;
 
-    public void insertUser(String id, String name, String pwd, String major){ // 구현 완료
-        this.mapper.insertUser(id, name, pwd, major);
-    }
+    /** 회원탈퇴 */
+    public void deleteUser(String id, String pwd) throws  Exception;
 
-    public void updateUserPwd(String id, String updatePwd){
-        this.mapper.updateUserPwd(id, updatePwd);
-    } // 구현 완료
-
-    public void deleteUser(String id, String pwd){ // 구현 완료
-        this.mapper.deleteUser(id, pwd);
-    }
 }
