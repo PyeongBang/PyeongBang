@@ -1,5 +1,6 @@
 package com.project.PyeongBang.mapper;
 
+import com.project.PyeongBang.dto.UserDto;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -8,8 +9,8 @@ import org.springframework.stereotype.Repository;
 public interface UserMapper {
 
     // 로그인
-    @Select("select name from user where id=#{id} and pwd=#{pwd}")
-    String login(@Param("id") String id, @Param("pwd") String pwd);
+    @Select("select * from user where id=#{id} and pwd=#{pwd}")
+    UserDto login(@Param("id") String id, @Param("pwd") String pwd);
 
     // 중복확인
     @Select("select name from user where id=#{id}")

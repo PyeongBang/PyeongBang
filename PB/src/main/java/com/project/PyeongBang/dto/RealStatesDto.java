@@ -12,7 +12,7 @@ public class RealStatesDto {
     private String phone;
     @NotEmpty(message = "본인 아이디는 필수 입력 값 입니다.")
     private String user_id;
-    @NotEmpty(message = "부도산 이름은 필수 입력 값 입니다.")
+    @NotEmpty(message = "부동산 이름은 필수 입력 값 입니다.")
     private String name;
     @NotEmpty(message = "부동산 주소는 필수 입력 값 입니다.")
     private String address;

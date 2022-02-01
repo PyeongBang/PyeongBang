@@ -2,6 +2,7 @@ package com.project.PyeongBang.controller;
 
 import com.project.PyeongBang.dto.LoginDto;
 import com.project.PyeongBang.dto.UserDto;
+import com.project.PyeongBang.service.JwtSvc;
 import com.project.PyeongBang.service.UserSvc;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,8 @@ public class UserController {
 
     @Autowired
     private final UserSvc userService;
+    @Autowired
+    private final JwtSvc jwtSvc;
 
     // 로그인
     @ApiOperation(value = "로그인 기능", notes = "id와 pwd 입력, 로그인 성공 시 메인 페이지로 이동")
@@ -38,10 +41,19 @@ public class UserController {
 
         /** hibernate validator check **/
         if(bindingResult.hasErrors()){
+            // 필수 값을 입력하지 않은 경우 return error
             return bindingResult.getFieldError().getField();
         }
-        if(userService.login(req.getId(), req.getPwd()) != null){
-            return "main page url";
+
+        UserDto userDto = userService.login(req.getId(), req.getPwd());
+
+        // 전공이 있는 경우 학생으로 취급, 부동산인 경우 공인중개사 및 부동산으로 취급
+        // 부동산의 경우 매물을 올릴 수 있는 권한 jwt를 생성(60분)
+        if(userDto.getMajor() != null){
+            if(userDto.getMajor().equals("부동산")){
+                jwtSvc.createJwt(req.getId(), req.getPwd());
+            }
+            return "login success, main page url";
         }
         return "login failed, login page url";
     }

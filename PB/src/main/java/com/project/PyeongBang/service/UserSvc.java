@@ -1,9 +1,11 @@
 package com.project.PyeongBang.service;
 
+import com.project.PyeongBang.dto.UserDto;
+
 public interface UserSvc {
 
     /** 사용자 로그인 */
-    public String login(String id, String pwd) throws Exception;
+    public UserDto login(String id, String pwd) throws Exception;
 
     /** 회원가입 중복확인 */
     public String duplicateCheck(String id) throws Exception;

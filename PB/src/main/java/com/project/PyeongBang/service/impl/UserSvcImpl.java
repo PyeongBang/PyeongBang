@@ -1,5 +1,6 @@
 package com.project.PyeongBang.service.impl;
 
+import com.project.PyeongBang.dto.UserDto;
 import com.project.PyeongBang.mapper.UserMapper;
 import com.project.PyeongBang.service.UserSvc;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ public class UserSvcImpl implements UserSvc {
     private UserMapper mapper;
 
     /** 사용자 로그인 */
-    public String login(String id, String pwd){ // 구현 완료
+    public UserDto login(String id, String pwd){ // 구현 완료
         return this.mapper.login(id, pwd);
     }
 
