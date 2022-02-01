@@ -45,4 +45,23 @@ public class JwtSvcImpl implements JwtSvc {
         return builder.compact();
     }
 
+    /** JWT 유효성 체크 */
+    public boolean checkJwt(String jwt){
+        try{
+            Claims claims = Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(secretKey))
+                    .parseClaimsJws(jwt).getBody();
+
+            logger.info("expire time : " + claims.getExpiration());
+            logger.info("jwt id : " + claims.get("id"));
+            logger.info("jwt pwd" + claims.get("pwd"));
+
+            return true;
+        } catch (ExpiredJwtException e){
+            logger.info("토큰 만료");
+            return false;
+        } catch (JwtException e){
+            logger.info("토큰 변조");
+            return false;
+        }
+    }
 }
