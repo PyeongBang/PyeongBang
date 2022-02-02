@@ -127,4 +127,13 @@ public class UserController {
             return "main page url"; // 메인 페이지로 이동
         }
     }
+
+    @RequestMapping(value = "/jwt", method=RequestMethod.GET, produces = "application/json")
+    public String chk_jwt(HttpServletRequest req) throws Exception {
+        String token = req.getHeader("token");
+        if(!jwtSvc.checkJwt(token)){
+            return "부동산 사업자가 아닙니다. 매물을 추가할 수 없습니다.";
+        }
+        return req.getParameter("url");
+    }
 }
