@@ -11,8 +11,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
 
 
 @RequiredArgsConstructor
@@ -27,7 +29,7 @@ public class UserController {
     // 로그인
     @ApiOperation(value = "로그인 기능", notes = "id와 pwd 입력, 로그인 성공 시 메인 페이지로 이동")
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
-    public String login(@Valid @RequestBody LoginDto req, BindingResult bindingResult) throws Exception {
+    public String login(@Valid @RequestBody LoginDto req, HttpServletResponse response, BindingResult bindingResult) throws Exception {
 
 
         /** common class validation check**/
@@ -53,7 +55,7 @@ public class UserController {
             if(userDto.getMajor().equals("부동산")){
                 jwtSvc.createJwt(req.getId(), req.getPwd());
             }
-            return "login success, main page url";
+            response.sendRedirect("login page url");
         }
         return "login failed, login page url";
     }
@@ -90,51 +92,56 @@ public class UserController {
     // 로그아웃
     @ApiOperation(value="로그아웃", notes="전체 세션 종료")
     @GetMapping("/logout")
-    public String logout(HttpSession session){
+    public void logout(HttpSession session, HttpServletResponse response) throws IOException {
         session.invalidate(); // 모든 세션을 종료
         /* 특정 세션만 종료  session에 해당하는 이름을 매개변수에 넣기
         session.removeAttribute(HttpSessionUtils.USER_SESSION_KEY);
          */
-        return "login page url";
+        response.sendRedirect("main page");
     }
 
     // 비밀번호 수정 후 재로그인
     @ApiOperation(value = "비밀번호 수정", notes ="비밀번호 수정 후 재로그인 페이지로 이동")
     @ResponseBody
     @RequestMapping(value = "/modify", method = RequestMethod.POST, produces = "application/json")
-    public String modifyMember(@Valid @RequestBody LoginDto req, BindingResult bindingResult, HttpSession session) throws Exception {
+    public boolean modifyMember(@Valid @RequestBody LoginDto request, BindingResult bindingResult, HttpSession session, HttpServletResponse response) throws Exception {
         // 기존 id와 변경을 원하는 새로운 pwd를 입력받기
 
-        if(userService.duplicateCheck(req.getId()) == null){
-            return "존재하지 않는 아이디 입니다. 재시도 바랍니다.";
+        if(userService.duplicateCheck(request.getId()) == null){
+            return false; // 본인 인증 실패
         }
-        userService.updateUserPwd(req.getId(), req.getPwd());
+        userService.updateUserPwd(request.getId(), request.getPwd());
         session.invalidate(); // pwd 변경 후 로그아웃 (세션 초기화)
-        return "login page url"; // 로그인 페이지 direct
+        response.sendRedirect("login page");
+        return true;
     }
 
     // 회원 탈퇴
     @ApiOperation(value="회원탈퇴", notes = "id와 pwd 입력을 통한 인증 후 회원탈퇴")
     @DeleteMapping("/delete")
-    public String deleteMember(HttpServletRequest httpServletRequest) throws Exception{
-        String id = httpServletRequest.getParameter("id");
-        String pwd = httpServletRequest.getParameter("pwd");
+    public void deleteMember(HttpServletRequest request, HttpServletResponse response) throws Exception{
+        String id = request.getParameter("id");
+        String pwd = request.getParameter("pwd");
         if(userService.login(id, pwd) == null){
             // 회원탈퇴 인증 실패
-            return "delete page url"; // 회원탈퇴 페이지로 다시 이동
+            response.sendRedirect("delete page url");
         }else{
             userService.deleteUser(id, pwd);
-            return "main page url"; // 메인 페이지로 이동
+            response.sendRedirect("main page url");
         }
     }
 
     @ApiOperation(value="토큰 유효성 검사", notes = "특정 페이지 접근 시 토큰 검증을 통한 페이지 접근 제어")
     @RequestMapping(value = "/jwt", method=RequestMethod.GET, produces = "application/json")
-    public String chk_jwt(HttpServletRequest req) throws Exception {
-        String token = req.getHeader("token");
+    public boolean chk_jwt(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String token = request.getHeader("token");
+        // String url = request.getHeader("url");
         if(!jwtSvc.checkJwt(token)){
-            return "부동산 사업자가 아닙니다. 매물을 추가할 수 없습니다.";
+            return false; // 부동산 사업자가 아닌 경우
+        }else{
+            // response.sendRedirect(url);
+            response.sendRedirect(request.getParameter("url"));
         }
-        return req.getParameter("url");
+        return true;
     }
 }
