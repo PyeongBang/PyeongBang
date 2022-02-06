@@ -1,12 +1,12 @@
 package com.project.PyeongBang.controller;
 
-import com.project.PyeongBang.dto.LoginDto;
 import com.project.PyeongBang.dto.UserDto;
 import com.project.PyeongBang.service.JwtSvc;
 import com.project.PyeongBang.service.UserSvc;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +29,7 @@ public class UserController {
     // 로그인
     @ApiOperation(value = "로그인 기능", notes = "id와 pwd 입력, 로그인 성공 시 메인 페이지로 이동")
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
-    public String login(@Valid @RequestBody LoginDto req, HttpServletResponse response, BindingResult bindingResult) throws Exception {
+    public String login(@Valid @RequestBody UserDto req, HttpServletResponse response, BindingResult bindingResult) throws Exception {
 
 
         /** common class validation check**/
@@ -76,16 +76,15 @@ public class UserController {
 
         /** hibernate validator check **/
         if(bindingResult.hasErrors()){
-            System.out.println(1);
             return bindingResult.getFieldError().toString();
         }
+        if(!StringUtils.hasText(req.getName())){
+            return "이름은 필수입니다.";
+        }
         if(userService.duplicateCheck(req.getId()) != null){
-            System.out.println(2);
             return "동일한 id가 이미 존재합니다. 다른 아이디를 입력해주세요";
         }
-        System.out.println(3);
         userService.insertUser(req.getId(), req.getName(), req.getPwd(), req.getMajor());
-        System.out.println(4);
         return "login page url"; // return 로그인 페이지
     }
 
@@ -104,7 +103,7 @@ public class UserController {
     @ApiOperation(value = "비밀번호 수정", notes ="비밀번호 수정 후 재로그인 페이지로 이동")
     @ResponseBody
     @RequestMapping(value = "/modify", method = RequestMethod.POST, produces = "application/json")
-    public boolean modifyMember(@Valid @RequestBody LoginDto request, BindingResult bindingResult, HttpSession session, HttpServletResponse response) throws Exception {
+    public boolean modifyMember(@Valid @RequestBody UserDto request, BindingResult bindingResult, HttpSession session, HttpServletResponse response) throws Exception {
         // 기존 id와 변경을 원하는 새로운 pwd를 입력받기
 
         if(userService.duplicateCheck(request.getId()) == null){
