@@ -55,9 +55,8 @@ public class UserController {
             if(userDto.getMajor().equals("부동산")){
                 jwtSvc.createJwt(req.getId(), req.getPwd());
             }
-            response.sendRedirect("login page url");
         }
-        return "login failed, login page url";
+        return "/index.html"; // 메인 페이지
     }
 
     // 회원가입
@@ -85,18 +84,18 @@ public class UserController {
             return "동일한 id가 이미 존재합니다. 다른 아이디를 입력해주세요";
         }
         userService.insertUser(req.getId(), req.getName(), req.getPwd(), req.getMajor());
-        return "login page url"; // return 로그인 페이지
+        return "/login"; // return 로그인 페이지
     }
 
     // 로그아웃
     @ApiOperation(value="로그아웃", notes="전체 세션 종료")
     @GetMapping("/logout")
-    public void logout(HttpSession session, HttpServletResponse response) throws IOException {
+    public String logout(HttpSession session, HttpServletResponse response) throws IOException {
         session.invalidate(); // 모든 세션을 종료
         /* 특정 세션만 종료  session에 해당하는 이름을 매개변수에 넣기
         session.removeAttribute(HttpSessionUtils.USER_SESSION_KEY);
          */
-        response.sendRedirect("main page");
+        return "/index.html";
     }
 
     // 비밀번호 수정 후 재로그인
@@ -118,29 +117,27 @@ public class UserController {
     // 회원 탈퇴
     @ApiOperation(value="회원탈퇴", notes = "id와 pwd 입력을 통한 인증 후 회원탈퇴")
     @DeleteMapping("/delete")
-    public void deleteMember(HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public String deleteMember(HttpServletRequest request) throws Exception{
         String id = request.getParameter("id");
         String pwd = request.getParameter("pwd");
         if(userService.login(id, pwd) == null){
             // 회원탈퇴 인증 실패
-            response.sendRedirect("delete page url");
+            return "/usr/delete";
         }else{
             userService.deleteUser(id, pwd);
-            response.sendRedirect("main page url");
+            return "/index.html";
         }
     }
 
     @ApiOperation(value="토큰 유효성 검사", notes = "특정 페이지 접근 시 토큰 검증을 통한 페이지 접근 제어")
     @RequestMapping(value = "/jwt", method=RequestMethod.GET, produces = "application/json")
-    public boolean chk_jwt(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String chk_jwt(HttpServletRequest request) throws Exception {
         String token = request.getHeader("token");
-        // String url = request.getHeader("url");
+        String url = request.getHeader("url");
         if(!jwtSvc.checkJwt(token)){
-            return false; // 부동산 사업자가 아닌 경우
+            return "/index.html"; // 부동산 사업자가 아닌 경우
         }else{
-            // response.sendRedirect(url);
-            response.sendRedirect(request.getParameter("url"));
+            return url;
         }
-        return true;
     }
 }
