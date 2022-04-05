@@ -34,6 +34,7 @@ public class JwtSvcImpl implements JwtSvc {
         headerMap.put("alg", "HS256");
 
         Map<String, Object> map = new HashMap<>();
+        map.put("iss", "done.com");
         map.put("id", id);
         map.put("pwd", pwd);
 

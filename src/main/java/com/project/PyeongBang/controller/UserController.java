@@ -1,11 +1,18 @@
 package com.project.PyeongBang.controller;
 
+import com.project.PyeongBang.dto.TokenResponseDto;
 import com.project.PyeongBang.dto.UserDto;
 import com.project.PyeongBang.service.JwtSvc;
 import com.project.PyeongBang.service.UserSvc;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.Response;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +23,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 
-
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 public class UserController {
@@ -29,7 +36,7 @@ public class UserController {
     // 로그인
     @ApiOperation(value = "로그인 기능", notes = "id와 pwd 입력, 로그인 성공 시 메인 페이지로 이동")
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
-    public String login(@Valid @RequestBody UserDto req, HttpServletResponse response, BindingResult bindingResult) throws Exception {
+    public ResponseEntity<?> login(@Valid @RequestBody UserDto req, HttpServletResponse response, BindingResult bindingResult) throws Exception {
 
 
         /** common class validation check**/
@@ -44,19 +51,33 @@ public class UserController {
         /** hibernate validator check **/
         if(bindingResult.hasErrors()){
             // 필수 값을 입력하지 않은 경우 return error
-            return bindingResult.getFieldError().getField();
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
         UserDto userDto = userService.login(req.getId(), req.getPwd());
 
         // 전공이 있는 경우 학생으로 취급, 부동산인 경우 공인중개사 및 부동산으로 취급
         // 부동산의 경우 매물을 올릴 수 있는 권한 jwt를 생성(60분)
-        if(userDto.getMajor() != null){
-            if(userDto.getMajor().equals("부동산")){
-                jwtSvc.createJwt(req.getId(), req.getPwd());
-            }
+        String token = "";
+        if(userDto.getMajor() != null && userDto.getMajor().equals("부동산")){
+            token = jwtSvc.createJwt(req.getId(), req.getPwd());
         }
-        return "/index.html"; // 메인 페이지
+        if("".equals(token)) return new ResponseEntity(HttpStatus.OK);
+        else{
+            /** refreshToken은 Header의 set-cookie에 담고 accessToken은 JSON Body에 담아서 리턴*/
+            TokenResponseDto tokenResponseDto = new TokenResponseDto(token, "bearer");
+            ResponseCookie responseCookie = ResponseCookie.from("refreshToken", "refreshToken")
+                    .httpOnly(true) // XSS에 의한 공격 위험을 완화, js로의 접근이 불가능
+                    .secure(true)
+                    .path("/index.html")
+                    .maxAge(60)
+                    .domain("done.net")
+                    .build();
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
+                    .body(responseCookie);
+        }
     }
 
     // 회원가입
