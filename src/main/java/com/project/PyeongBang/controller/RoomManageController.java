@@ -16,7 +16,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RestController
+@RestController(value = "/saleinfo")
 public class RoomManageController {
 
     @Autowired

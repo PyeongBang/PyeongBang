@@ -25,7 +25,7 @@ import java.io.IOException;
 
 @Slf4j
 @RequiredArgsConstructor
-@RestController
+@RestController(value = "/user")
 public class UserController {
 
     @Autowired
