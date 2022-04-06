@@ -7,38 +7,23 @@ import javax.validation.constraints.NotEmpty;
 
 @Getter
 @Setter
+@NotEmpty
 public class RoomOptionsDto {
-    @NotEmpty(message = "필수 값을 입력해주세요")
     private String building_name; // 건물명
-    @NotEmpty(message = "필수 값을 입력해주세요")
     private boolean induction;
-    @NotEmpty(message = "필수 값을 입력해주세요")
     private boolean microwave;
-    @NotEmpty(message = "필수 값을 입력해주세요")
     private boolean airConditioner;
-    @NotEmpty(message = "필수 값을 입력해주세요")
     private boolean tv;
-    @NotEmpty(message = "필수 값을 입력해주세요")
     private boolean bed;
-    @NotEmpty(message = "필수 값을 입력해주세요")
     private boolean desk;
-    @NotEmpty(message = "필수 값을 입력해주세요")
     private boolean shoeCloset;
-    @NotEmpty(message = "필수 값을 입력해주세요")
     private boolean gasRange;
-    @NotEmpty(message = "필수 값을 입력해주세요")
     private boolean refrigerator;
-    @NotEmpty(message = "필수 값을 입력해주세요")
     private boolean doorLock;
-    @NotEmpty(message = "필수 값을 입력해주세요")
     private boolean fireAlarm;
-    @NotEmpty(message = "필수 값을 입력해주세요")
     private boolean videoPhone;
-    @NotEmpty(message = "필수 값을 입력해주세요")
     private boolean common_entrance;
-    @NotEmpty(message = "필수 값을 입력해주세요")
     private boolean cctv;
-    @NotEmpty(message = "필수 값을 입력해주세요")
     private boolean interPhone;
 
     public RoomOptionsDto(String building_name, boolean induction, boolean microwave, boolean airConditioner,

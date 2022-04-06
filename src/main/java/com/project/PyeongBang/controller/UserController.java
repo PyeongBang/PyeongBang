@@ -5,7 +5,6 @@ import com.project.PyeongBang.dto.UserDto;
 import com.project.PyeongBang.service.JwtSvc;
 import com.project.PyeongBang.service.UserSvc;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.models.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +34,7 @@ public class UserController {
     private final JwtSvc jwtSvc;
 
     // 로그인
+    @Transactional
     @ApiOperation(value = "로그인 기능", notes = "id와 pwd 입력, 로그인 성공 시 메인 페이지로 이동")
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> login(@Valid @RequestBody UserDto req, HttpServletResponse response, BindingResult bindingResult) throws Exception {
@@ -49,7 +50,7 @@ public class UserController {
          */
 
         /** hibernate validator check **/
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             // 필수 값을 입력하지 않은 경우 return error
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
@@ -59,11 +60,11 @@ public class UserController {
         // 전공이 있는 경우 학생으로 취급, 부동산인 경우 공인중개사 및 부동산으로 취급
         // 부동산의 경우 매물을 올릴 수 있는 권한 jwt를 생성(60분)
         String token = "";
-        if(userDto.getMajor() != null && userDto.getMajor().equals("부동산")){
+        if (userDto.getMajor() != null && userDto.getMajor().equals("부동산")) {
             token = jwtSvc.createJwt(req.getId(), req.getPwd());
         }
-        if("".equals(token)) return new ResponseEntity(HttpStatus.OK);
-        else{
+        if ("".equals(token)) return new ResponseEntity(HttpStatus.OK);
+        else {
             /** refreshToken은 Header의 set-cookie에 담고 accessToken은 JSON Body에 담아서 리턴*/
             TokenResponseDto tokenResponseDto = new TokenResponseDto(token, "bearer");
             ResponseCookie responseCookie = ResponseCookie.from("refreshToken", "refreshToken")
@@ -95,13 +96,13 @@ public class UserController {
          */
 
         /** hibernate validator check **/
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return bindingResult.getFieldError().toString();
         }
-        if(!StringUtils.hasText(req.getName())){
+        if (!StringUtils.hasText(req.getName())) {
             return "이름은 필수입니다.";
         }
-        if(userService.duplicateCheck(req.getId()) != null){
+        if (userService.duplicateCheck(req.getId()) != null) {
             return "동일한 id가 이미 존재합니다. 다른 아이디를 입력해주세요";
         }
         userService.insertUser(req.getId(), req.getName(), req.getPwd(), req.getMajor());
@@ -109,7 +110,7 @@ public class UserController {
     }
 
     // 로그아웃
-    @ApiOperation(value="로그아웃", notes="전체 세션 종료")
+    @ApiOperation(value = "로그아웃", notes = "전체 세션 종료")
     @GetMapping("/logout")
     public String logout(HttpSession session, HttpServletResponse response) throws IOException {
         session.invalidate(); // 모든 세션을 종료
@@ -120,13 +121,13 @@ public class UserController {
     }
 
     // 비밀번호 수정 후 재로그인
-    @ApiOperation(value = "비밀번호 수정", notes ="비밀번호 수정 후 재로그인 페이지로 이동")
+    @ApiOperation(value = "비밀번호 수정", notes = "비밀번호 수정 후 재로그인 페이지로 이동")
     @ResponseBody
     @RequestMapping(value = "/modify", method = RequestMethod.POST, produces = "application/json")
     public boolean modifyMember(@Valid @RequestBody UserDto request, BindingResult bindingResult, HttpSession session, HttpServletResponse response) throws Exception {
         // 기존 id와 변경을 원하는 새로운 pwd를 입력받기
 
-        if(userService.duplicateCheck(request.getId()) == null){
+        if (userService.duplicateCheck(request.getId()) == null) {
             return false; // 본인 인증 실패
         }
         userService.updateUserPwd(request.getId(), request.getPwd());
@@ -136,28 +137,28 @@ public class UserController {
     }
 
     // 회원 탈퇴
-    @ApiOperation(value="회원탈퇴", notes = "id와 pwd 입력을 통한 인증 후 회원탈퇴")
+    @ApiOperation(value = "회원탈퇴", notes = "id와 pwd 입력을 통한 인증 후 회원탈퇴")
     @DeleteMapping("/delete")
-    public String deleteMember(HttpServletRequest request) throws Exception{
+    public String deleteMember(HttpServletRequest request) throws Exception {
         String id = request.getParameter("id");
         String pwd = request.getParameter("pwd");
-        if(userService.login(id, pwd) == null){
+        if (userService.login(id, pwd) == null) {
             // 회원탈퇴 인증 실패
             return "/usr/delete";
-        }else{
+        } else {
             userService.deleteUser(id, pwd);
             return "/index.html";
         }
     }
 
-    @ApiOperation(value="토큰 유효성 검사", notes = "특정 페이지 접근 시 토큰 검증을 통한 페이지 접근 제어")
-    @RequestMapping(value = "/jwt", method=RequestMethod.GET, produces = "application/json")
+    @ApiOperation(value = "토큰 유효성 검사", notes = "특정 페이지 접근 시 토큰 검증을 통한 페이지 접근 제어")
+    @RequestMapping(value = "/jwt", method = RequestMethod.GET, produces = "application/json")
     public String chk_jwt(HttpServletRequest request) throws Exception {
         String token = request.getHeader("token");
         String url = request.getHeader("url");
-        if(!jwtSvc.checkJwt(token)){
+        if (!jwtSvc.checkJwt(token)) {
             return "/index.html"; // 부동산 사업자가 아닌 경우
-        }else{
+        } else {
             return url;
         }
     }

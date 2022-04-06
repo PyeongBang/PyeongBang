@@ -7,25 +7,17 @@ import javax.validation.constraints.NotEmpty;
 
 @Getter
 @Setter
+@NotEmpty
 public class RoomInfoDto {
     private int room_id; // 매물번호
-    @NotEmpty(message = "필수 값을 입력해주세요")
     private String realStates_phone;
-    @NotEmpty(message = "필수 값을 입력해주세요")
     private String building_name;
-    @NotEmpty(message = "필수 값을 입력해주세요")
     private String room_type;
-    @NotEmpty(message = "필수 값을 입력해주세요")
     private String address;
-    @NotEmpty(message = "필수 값을 입력해주세요")
     private String monthly_estimated_cost; // 한달 예상 주거비용
-    @NotEmpty(message = "필수 값을 입력해주세요")
     private String monthly; // 월세
-    @NotEmpty(message = "필수 값을 입력해주세요")
     private String administrative_expense; // 관리비
-    @NotEmpty(message = "필수 값을 입력해주세요")
     private String parking;
-    @NotEmpty(message = "필수 값을 입력해주세요")
     private boolean short_term_rental; // 단기임대 /  0 불가, 1 가능
 
     public RoomInfoDto(int room_id, String realStates_phone, String building_name, String room_type,

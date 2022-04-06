@@ -9,6 +9,7 @@ import javax.validation.constraints.NotEmpty;
 
 @Getter
 @Setter
+@NotEmpty
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class DetailResponseDto {
     private int room_id; // 매물번호
