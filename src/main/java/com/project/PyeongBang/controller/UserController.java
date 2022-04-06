@@ -152,7 +152,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "토큰 유효성 검사", notes = "특정 페이지 접근 시 토큰 검증을 통한 페이지 접근 제어")
-    @RequestMapping(value = "/jwt", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/jwt", method = RequestMethod.POST, produces = "application/json")
     public String chk_jwt(HttpServletRequest request) throws Exception {
         String token = request.getHeader("token");
         String url = request.getHeader("url");

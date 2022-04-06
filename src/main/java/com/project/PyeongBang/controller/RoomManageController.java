@@ -92,7 +92,7 @@ public class RoomManageController {
 
     // 원하는 방 선택 시 info, detail, option 합쳐서 return
     @ApiOperation(value="선택한 매물의 정보를 리턴", notes="방의 정보 + 디테일 + 옵션에 대한 모든 값")
-    @PostMapping("/responseInfo")
+    @GetMapping("/responseInfo")
     public DetailResponseDto selectRoomInfo(HttpServletRequest httpServletRequest) throws Exception{
         int num = Integer.parseInt(httpServletRequest.getParameter("num"));
         int room_id = Integer.parseInt(httpServletRequest.getParameter("room_id"));
@@ -102,7 +102,7 @@ public class RoomManageController {
 
     // 빌딩 이름으로 검색
     @ApiOperation(value="빌딩 이름으로 검색", notes="빌딩 이름으로 매물 검색")
-    @PostMapping("/searchBuildingName")
+    @GetMapping("/searchBuildingName")
     public List<RoomInfoDto> selectBuildingName(HttpServletRequest httpServletRequest) throws Exception{
         String building_name = httpServletRequest.getParameter("building_name");
         return roomSvc.selectBuildingNameInfo(building_name);
@@ -110,7 +110,7 @@ public class RoomManageController {
 
     // 주소로 검색
     @ApiOperation(value="주소로 방 검색", notes="주소를 활용한 매물 검색")
-    @PostMapping("/searchAddress")
+    @GetMapping("/searchAddress")
     public List<RoomInfoDto> selectAddress(HttpServletRequest httpServletRequest) throws Exception{
         String address = httpServletRequest.getParameter("address");
         return roomSvc.selectAddress(address);
