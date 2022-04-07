@@ -4,6 +4,9 @@ import com.project.PyeongBang.dto.TokenResponseDto;
 import com.project.PyeongBang.dto.UserDto;
 import com.project.PyeongBang.service.JwtSvc;
 import com.project.PyeongBang.service.UserSvc;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,8 +37,12 @@ public class UserController {
     private final JwtSvc jwtSvc;
 
     // 로그인
-    @Transactional
     @ApiOperation(value = "로그인 기능", notes = "id와 pwd 입력, 로그인 성공 시 메인 페이지로 이동")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "사용자 이름", required = true),
+            @ApiImplicitParam(name = "pwd", value = "사용자 비밀번호", required = true),
+    })
+    @Transactional
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> login(@Valid @RequestBody UserDto req, HttpServletResponse response, BindingResult bindingResult) throws Exception {
 
@@ -83,6 +90,12 @@ public class UserController {
 
     // 회원가입
     @ApiOperation(value = "회원가입 기능", notes = "필수 값으로 입력 후 id 중복확인 및 회원가입 진행")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "사용자 아이디", required = true),
+            @ApiImplicitParam(name = "pwd", value = "사용자 비밀번호", required = true),
+            @ApiImplicitParam(name = "name", value = "사용자 이름", required = true),
+            @ApiImplicitParam(name = "major", value = "사용자 전공", required = false)
+    })
     @ResponseBody
     @RequestMapping(value = "/newMember", method = RequestMethod.POST, produces = "application/json")
     public String joinMember(@Valid @RequestBody UserDto req, BindingResult bindingResult) throws Exception {
@@ -114,7 +127,7 @@ public class UserController {
     @GetMapping("/logout")
     public String logout(HttpSession session, HttpServletResponse response) throws IOException {
         session.invalidate(); // 모든 세션을 종료
-        /* 특정 세션만 종료  session에 해당하는 이름을 매개변수에 넣기
+        /* 특정 세션만 종료 시 session에 해당하는 이름을 매개변수에 넣기
         session.removeAttribute(HttpSessionUtils.USER_SESSION_KEY);
          */
         return "/index.html";
@@ -122,8 +135,12 @@ public class UserController {
 
     // 비밀번호 수정 후 재로그인
     @ApiOperation(value = "비밀번호 수정", notes = "비밀번호 수정 후 재로그인 페이지로 이동")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "유저 아이디", required = true),
+            @ApiImplicitParam(name = "pwd", value = "유저 비밀번호", required = true)
+    })
     @ResponseBody
-    @RequestMapping(value = "/modify", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/modify", method = RequestMethod.PUT, produces = "application/json")
     public boolean modifyMember(@Valid @RequestBody UserDto request, BindingResult bindingResult, HttpSession session, HttpServletResponse response) throws Exception {
         // 기존 id와 변경을 원하는 새로운 pwd를 입력받기
 
@@ -138,6 +155,10 @@ public class UserController {
 
     // 회원 탈퇴
     @ApiOperation(value = "회원탈퇴", notes = "id와 pwd 입력을 통한 인증 후 회원탈퇴")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "id", value = "유저 아이디", required = true),
+            @ApiImplicitParam(name = "pwd", value = "유저 비밀번호", required = true)
+    })
     @DeleteMapping("/delete")
     public String deleteMember(HttpServletRequest request) throws Exception {
         String id = request.getParameter("id");
@@ -152,6 +173,10 @@ public class UserController {
     }
 
     @ApiOperation(value = "토큰 유효성 검사", notes = "특정 페이지 접근 시 토큰 검증을 통한 페이지 접근 제어")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "token", value = "유저 토큰", required = true),
+            @ApiImplicitParam(name = "url", value = "토큰 유효성에 따른 페이지 url", required = true)
+    })
     @RequestMapping(value = "/jwt", method = RequestMethod.POST, produces = "application/json")
     public String chk_jwt(HttpServletRequest request) throws Exception {
         String token = request.getHeader("token");

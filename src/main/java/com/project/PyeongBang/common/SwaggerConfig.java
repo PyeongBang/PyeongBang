@@ -30,7 +30,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
     @SuppressWarnings("deprecation")
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "PB API",
+                "PyeongBang API",
                 "API Documentation for PyeongBang",
                 "1.0",
                 null,

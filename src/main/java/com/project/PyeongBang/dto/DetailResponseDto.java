@@ -2,6 +2,8 @@ package com.project.PyeongBang.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiOperation;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +13,7 @@ import javax.validation.constraints.NotEmpty;
 @Setter
 @NotEmpty
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+@ApiModel(value = "매물 관련 모든 정보", description = "매물과 관련된 모든 정보, 사용자에게 Return 해주기 위한 Model")
 public class DetailResponseDto {
     private int room_id; // 매물번호
     private String realStates_phone;

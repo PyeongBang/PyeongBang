@@ -1,5 +1,7 @@
 package com.project.PyeongBang.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,14 +9,15 @@ import javax.validation.constraints.NotEmpty;
 
 @Getter
 @Setter
+@NotEmpty(message = "필수 값을 모두 입력해주세요")
+@ApiModel(value = "부동산 정보")
 public class RealStatesDto {
-    @NotEmpty(message = "부도산 전화번호는 필수 입력 값 입니다.")
+    @ApiModelProperty(example = "부동산 연락처")
     private String phone;
-    @NotEmpty(message = "본인 아이디는 필수 입력 값 입니다.")
     private String user_id;
-    @NotEmpty(message = "부동산 이름은 필수 입력 값 입니다.")
+    @ApiModelProperty(example = "부동산 관리자 이름")
     private String name;
-    @NotEmpty(message = "부동산 주소는 필수 입력 값 입니다.")
+    @ApiModelProperty(example = "부동산 주소")
     private String address;
     public RealStatesDto(String phone, String user_id, String name, String address){
         this.phone = phone;

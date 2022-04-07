@@ -1,13 +1,17 @@
 package com.project.PyeongBang.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.PyeongBang.dto.DetailResponseDto;
 import com.project.PyeongBang.dto.RoomDetailsDto;
 import com.project.PyeongBang.dto.RoomInfoDto;
 import com.project.PyeongBang.dto.RoomOptionsDto;
 import com.project.PyeongBang.service.RoomSvc;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -102,14 +106,24 @@ public class RoomManageController {
 
     // 빌딩 이름으로 검색
     @ApiOperation(value="빌딩 이름으로 검색", notes="빌딩 이름으로 매물 검색")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "build_name", value = "빌딩 이름", required = true)
+    })
     @GetMapping("/searchBuildingName")
-    public List<RoomInfoDto> selectBuildingName(HttpServletRequest httpServletRequest) throws Exception{
+    public String selectBuildingName(HttpServletRequest httpServletRequest) throws Exception{
         String building_name = httpServletRequest.getParameter("building_name");
-        return roomSvc.selectBuildingNameInfo(building_name);
+        ObjectMapper objM = new ObjectMapper();
+        if("".equals(building_name.replaceAll(" ", ""))){
+            return HttpStatus.BAD_REQUEST.toString();
+        }
+        return objM.writeValueAsString(roomSvc.selectBuildingNameInfo(building_name));
     }
 
     // 주소로 검색
     @ApiOperation(value="주소로 방 검색", notes="주소를 활용한 매물 검색")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "address", value = "원하는 매물 위치 주소", required = true)
+    })
     @GetMapping("/searchAddress")
     public List<RoomInfoDto> selectAddress(HttpServletRequest httpServletRequest) throws Exception{
         String address = httpServletRequest.getParameter("address");

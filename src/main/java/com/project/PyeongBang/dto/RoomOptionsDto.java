@@ -1,5 +1,7 @@
 package com.project.PyeongBang.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +10,9 @@ import javax.validation.constraints.NotEmpty;
 @Getter
 @Setter
 @NotEmpty
+@ApiModel(value = "매물 옵션", description = "빌딩 이름을 기준으로 매물 옵션 정보")
 public class RoomOptionsDto {
+    @ApiModelProperty(example = "매물 건물 이름")
     private String building_name; // 건물명
     private boolean induction;
     private boolean microwave;
