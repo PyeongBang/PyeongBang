@@ -37,8 +37,9 @@
 ![](https://i.esdrop.com/d/f/eoVlczNHjw/w4zdmIf4On.png)
 ![](https://i.esdrop.com/d/f/eoVlczNHjw/KY8HZvVBxE.png)
 
-## 정보
-- 개발자 : 대구대학교 컴퓨터공학과 [백대현](https://github.com/eogus65121)
+## 개발자 정보
+- BackEnd : 대구대학교 컴퓨터공학과 [백대현](https://github.com/eogus65121)
+- FrontEnd : 대구대학교 컴퓨터공학과 [김태성] https://github.com/PyeongBang/PyeonBang_Frontend
 
 ## 비고
 - 개발 진행 중!!! 
