@@ -29,11 +29,10 @@
 - UI : Swagger 3.0
 - DB : MySQL
 
-## 서비스 화면 (Swagger 3.0)
+## 실행 화면 (Swagger 3.0)
 - ### Windows10
 
-![]("https://i.esdrop.com/d/f/eoVlczNHjw/dgCLc7HejM.png" width="20%" height="30%")
-<img src="https://i.esdrop.com/d/f/eoVlczNHjw/dgCLc7HejM.png" width="20%" height="30%"/>
+![](https://i.esdrop.com/d/f/eoVlczNHjw/dgCLc7HejM.png)
 ![](https://i.esdrop.com/d/f/eoVlczNHjw/ZbZuAOlgWX.png)
 ![](https://i.esdrop.com/d/f/eoVlczNHjw/w4zdmIf4On.png)
 ![](https://i.esdrop.com/d/f/eoVlczNHjw/KY8HZvVBxE.png)
