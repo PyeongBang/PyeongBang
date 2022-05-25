@@ -16,6 +16,9 @@ public interface UserMapper {
     @Select("select name from user where id=#{id}")
     String duplicateCheck(@Param("id") String id);
 
+    @Select("select * from user where id=#{id}")
+    UserDto getUserInfo(@Param("id") String id);
+
     // 회원가입
     @Insert("insert into user values(#{id}, #{name}, #{pwd}, #{major})")
     void insertUser(@Param("id") String id, @Param("name") String name, @Param("pwd") String pwd, @Param("major") String major);

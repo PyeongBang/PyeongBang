@@ -4,7 +4,6 @@ import com.project.PyeongBang.dto.TokenResponseDto;
 import com.project.PyeongBang.dto.UserDto;
 import com.project.PyeongBang.service.JwtSvc;
 import com.project.PyeongBang.service.UserSvc;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -16,10 +15,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.security.sasl.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -44,7 +45,7 @@ public class UserController {
     })
     @Transactional
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> login(@Valid @RequestBody UserDto req, HttpServletResponse response, BindingResult bindingResult) throws Exception {
+    public ResponseEntity<?> login(@Valid @RequestBody UserDto req, HttpServletResponse response, BindingResult bindingResult, Model model) throws Exception {
 
 
         /** common class validation check**/
@@ -64,12 +65,17 @@ public class UserController {
 
         UserDto userDto = userService.login(req.getId(), req.getPwd());
 
+        model.addAttribute("userInfo", userDto);
+
         // 전공이 있는 경우 학생으로 취급, 부동산인 경우 공인중개사 및 부동산으로 취급
         // 부동산의 경우 매물을 올릴 수 있는 권한 jwt를 생성(60분)
         String token = "";
         if (userDto.getMajor() != null && userDto.getMajor().equals("부동산")) {
             token = jwtSvc.createJwt(req.getId(), req.getPwd());
         }
+
+
+
         if ("".equals(token)) return new ResponseEntity(HttpStatus.OK);
         else {
             /** refreshToken은 Header의 set-cookie에 담고 accessToken은 JSON Body에 담아서 리턴*/
@@ -119,7 +125,7 @@ public class UserController {
             return "동일한 id가 이미 존재합니다. 다른 아이디를 입력해주세요";
         }
         userService.insertUser(req.getId(), req.getName(), req.getPwd(), req.getMajor());
-        return "/login"; // return 로그인 페이지
+        return "redirect:/login";
     }
 
     // 로그아웃
@@ -130,7 +136,7 @@ public class UserController {
         /* 특정 세션만 종료 시 session에 해당하는 이름을 매개변수에 넣기
         session.removeAttribute(HttpSessionUtils.USER_SESSION_KEY);
          */
-        return "/index.html";
+        return "redirect:/index.html";
     }
 
     // 비밀번호 수정 후 재로그인
@@ -141,16 +147,18 @@ public class UserController {
     })
     @ResponseBody
     @RequestMapping(value = "/modify", method = RequestMethod.PUT, produces = "application/json")
-    public boolean modifyMember(@Valid @RequestBody UserDto request, BindingResult bindingResult, HttpSession session, HttpServletResponse response) throws Exception {
+    public ResponseEntity<?> modifyMember(@Valid @RequestBody UserDto request, BindingResult bindingResult, HttpSession session, HttpServletResponse response, Model model) throws Exception {
         // 기존 id와 변경을 원하는 새로운 pwd를 입력받기
 
         if (userService.duplicateCheck(request.getId()) == null) {
-            return false; // 본인 인증 실패
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // 본인 인증 실패
         }
         userService.updateUserPwd(request.getId(), request.getPwd());
         session.invalidate(); // pwd 변경 후 로그아웃 (세션 초기화)
         response.sendRedirect("login page");
-        return true;
+        UserDto userDto = userService.getUserInfo(request.getId());
+        model.addAttribute("userInfo", userDto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // 회원 탈퇴
@@ -168,7 +176,7 @@ public class UserController {
             return "/usr/delete";
         } else {
             userService.deleteUser(id, pwd);
-            return "/index.html";
+            return "redirect:/index.html";
         }
     }
 
@@ -178,13 +186,13 @@ public class UserController {
             @ApiImplicitParam(name = "url", value = "토큰 유효성에 따른 페이지 url", required = true)
     })
     @RequestMapping(value = "/jwt", method = RequestMethod.POST, produces = "application/json")
-    public String chk_jwt(HttpServletRequest request) throws Exception {
+    public ResponseEntity<?> chk_jwt(HttpServletRequest request) throws AuthenticationException, Exception {
         String token = request.getHeader("token");
         String url = request.getHeader("url");
         if (!jwtSvc.checkJwt(token)) {
-            return "/index.html"; // 부동산 사업자가 아닌 경우
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
-            return url;
+            return new ResponseEntity<>(HttpStatus.OK);
         }
     }
 }

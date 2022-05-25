@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,7 +47,7 @@ public class RoomManageController {
         }else{
             roomSvc.addRoomInfo((roomInfoDto));
         }
-        return "추가 완료";
+        return "redirect:/index.html";
     }
 
     // add room details
@@ -69,7 +70,7 @@ public class RoomManageController {
             roomSvc.addRoomDetails(roomDetailsDto);
         }
 
-        return "추가 완료";
+        return "redirect:/index.html";
     }
 
     // add room options
@@ -91,17 +92,20 @@ public class RoomManageController {
         }else{
             roomSvc.addRoomOptions(roomOptionsDto);
         }
-        return "추가 완료";
+        return "redirect:/index.html";
     }
 
     // 원하는 방 선택 시 info, detail, option 합쳐서 return
     @ApiOperation(value="선택한 매물의 정보를 리턴", notes="방의 정보 + 디테일 + 옵션에 대한 모든 값")
     @GetMapping("/responseInfo")
-    public DetailResponseDto selectRoomInfo(HttpServletRequest httpServletRequest) throws Exception{
+    public String selectRoomInfo(HttpServletRequest httpServletRequest, Model model) throws Exception{
         int num = Integer.parseInt(httpServletRequest.getParameter("num"));
         int room_id = Integer.parseInt(httpServletRequest.getParameter("room_id"));
         String major = httpServletRequest.getParameter("major");
-        return roomSvc.selectRoomInfo(num, room_id, major);
+        model.addAttribute("roomInfo", roomSvc.selectRoomInfo(num, room_id, major));
+        String url = httpServletRequest.getRequestURL().toString();
+
+        return "redirect:/"+url;
     }
 
     // 빌딩 이름으로 검색

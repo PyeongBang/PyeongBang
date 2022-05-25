@@ -10,6 +10,8 @@ public interface UserSvc {
     /** 회원가입 중복확인 */
     public String duplicateCheck(String id) throws Exception;
 
+    public UserDto getUserInfo(String id) throws Exception;
+
     /** 회원가입 */
     public void insertUser(String id, String name, String pwd, String major) throws Exception;
 

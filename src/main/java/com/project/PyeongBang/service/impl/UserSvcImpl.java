@@ -16,6 +16,9 @@ public class UserSvcImpl implements UserSvc {
         return this.mapper.login(id, pwd);
     }
 
+    /** 사용자 정보 가져오기 */
+    public UserDto getUserInfo(String id) {return this.mapper.getUserInfo(id);}
+
     /** 회원가입 중복확인 */
     public String duplicateCheck(String id){
         return this.mapper.duplicateCheck(id);
