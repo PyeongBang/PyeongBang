@@ -44,4 +44,4 @@
 
 ## 비고
 ~~- 개발 진행 중!!!~~
-개인 프로젝트로 변경, FrontEnd는 Swagger로 
+개인 프로젝트로 변경, FrontEnd는 Swagger로 대체
