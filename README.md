@@ -39,6 +39,7 @@
 
 ## 개발자 정보
 - BackEnd : 대구대학교 컴퓨터공학과 [백대현](https://github.com/eogus65121)
+
 ~~- FrontEnd : 대구대학교 컴퓨터공학과 [김태성] https://github.com/PyeongBang/PyeonBang_Frontend~~
 
 ## 비고
