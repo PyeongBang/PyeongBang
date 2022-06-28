@@ -12,7 +12,7 @@ import java.nio.file.AccessDeniedException;
 // 모든 컨트롤러에서 발생하는 에러를 잡음
 @RestControllerAdvice
 @Slf4j
-public class ExceptionController {
+public class ExceptionController{
 
     // 400
     // 특정 에러마다 return 값을 지정
@@ -44,4 +44,6 @@ public class ExceptionController {
         log.error("error", ex);
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+
 }

@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -29,7 +30,8 @@ import java.io.IOException;
 
 @Slf4j
 @RequiredArgsConstructor
-@RestController(value = "/user")
+//@RestController(value = "/user")
+@Controller
 public class UserController {
 
     @Autowired
@@ -45,9 +47,9 @@ public class UserController {
     })
     @Transactional
     @RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> login(@Valid @RequestBody UserDto req, HttpServletResponse response, BindingResult bindingResult, Model model) throws Exception {
+    public ResponseEntity<?> login(@Valid @RequestBody UserDto req, BindingResult bindingResult, Model model) throws Exception {
 
-
+        return new ResponseEntity<>(HttpStatus.OK);
         /** common class validation check**/
         /*
         new LoginValidator().validate(req, errors);
@@ -57,7 +59,7 @@ public class UserController {
         return userService.login(req.getId(), req.getPwd())
          */
 
-        /** hibernate validator check **/
+/*        *//** hibernate validator check **//*
         if (bindingResult.hasErrors()) {
             // 필수 값을 입력하지 않은 경우 return error
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -78,7 +80,7 @@ public class UserController {
 
         if ("".equals(token)) return new ResponseEntity(HttpStatus.OK);
         else {
-            /** refreshToken은 Header의 set-cookie에 담고 accessToken은 JSON Body에 담아서 리턴*/
+            *//** refreshToken은 Header의 set-cookie에 담고 accessToken은 JSON Body에 담아서 리턴*//*
             TokenResponseDto tokenResponseDto = new TokenResponseDto(token, "bearer");
             ResponseCookie responseCookie = ResponseCookie.from("refreshToken", "refreshToken")
                     .httpOnly(true) // XSS에 의한 공격 위험을 완화, js로의 접근이 불가능
@@ -91,7 +93,7 @@ public class UserController {
             return ResponseEntity.ok()
                     .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
                     .body(responseCookie);
-        }
+        }*/
     }
 
     // 회원가입
