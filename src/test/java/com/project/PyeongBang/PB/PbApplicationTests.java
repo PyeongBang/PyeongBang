@@ -1,4 +1,4 @@
-package com.PyeongBang.PB;
+package com.project.PyeongBang.PB;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
