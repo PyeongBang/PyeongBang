@@ -22,6 +22,9 @@
 - 편의점 정보 제공
 - 추가 기능 개발 중
 
+## 사용 기술스택
+**Swagger2.0, SpringBoot, Gradle, RestAPI, JWT Token, Hibernate, ibatis**
+
 ## 개발환경
 - Language : Java 11
 - Web Framework : Spring boot
