@@ -23,7 +23,7 @@
 - 추가 기능 개발 중
 
 ## 사용 기술스택
-**Swagger2.0, SpringBoot, Gradle, RestAPI, JWT Token, Hibernate, ibatis**
+**Swagger2.0, SpringBoot, Gradle, RestAPI, JWT Token, Hibernate, ibatis, Junit4**
 
 ## 개발환경
 - Language : Java 11
